@@ -1,0 +1,53 @@
+#home-yr {
+    width: 21.3em;
+}
+a {
+    cursor: pointer;
+}
+
+.icon-panel li a {
+    padding: 0;
+}
+.icon-panel li a span {
+    padding: 0; margin: 0 0.5em;
+}
+
+#content.page {
+    width: 40em;
+}
+
+#contact-form a.btn {
+    top: -0.3em;
+    position: relative;
+}
+#contact-form input.btn {
+    padding: 0.1em 0.2em 0.3em;
+}
+
+.slideshow-desc {
+    width: 33.7em;
+}
+
+/*#sidebar {
+}
+#sidebar #calendar_wrap {
+    top: -12px;
+}
+#page-inner {
+    position: relative;
+    top: -2px;
+}
+#page .bot-bar {
+    position: relative;
+    top: -2px;
+}
+#sidebar .widget {
+    padding-bottom: 0;
+}
+#sidebar .textwidget {
+    margin-top: -22px;
+}
+#sidebar .widget_calendar .widgettitle {
+    font-size: 13px;
+}
+html>body #content-inner{height:auto; min-height:100%;}*/

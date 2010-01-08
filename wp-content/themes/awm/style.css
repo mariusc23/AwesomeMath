@@ -1,0 +1,813 @@
+/*
+Theme Name: AwesomeMath
+Theme URI: http://craciunoiu.net/portfolio
+Description: The default awesomemath.org theme, developed by Paul & Marius @ Craciunoiu.net.
+Version: 1.0
+Author: Paul & Marius Craciunoiu
+Author URI: http://craciunoiu.net
+Tags: fixed width, two columns
+
+Copyright Paul & Marius Craciunoiu
+Under the Creative Commons license, for Non-Commercial use only.
+http://creativecommons.org/licenses/by-nc-sa/3.0/us/
+
+*/
+
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-size: 100%;
+    vertical-align: baseline;
+    background: transparent;
+}
+blockquote, q {
+    quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content: '';
+    content: none;
+}
+label {
+    cursor: pointer;
+}
+input[type="submit"] {
+    cursor: pointer;
+}
+
+/* remember to define focus styles! */
+:focus {
+    outline: 0;
+}
+
+/* tables still need 'cellspacing="0"' in the markup */
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+
+/* Styles for layout
+-----------------------------------------------------------------------------*/
+
+.hidden {
+    display: none;
+}
+.clear {
+    clear: both;
+}
+
+/* Set up the document
+-----------------------------------------------------------------------------*/
+
+body {
+    font-family:  Arial, Helvetica, "Lucida Grande", "Lucida Sans", Tahoma, Verdana, sans-serif;
+    background: #e6e4e4;
+    text-align: left;
+    color: #575757;
+    height: 100%;
+    line-height: 1.5em;
+    font-size: 0.875em;
+}
+
+#page-wrapper {
+    background: #e6e4e4 url('images/bg.png') repeat-x top;
+    padding-bottom: 1em;
+}
+
+h1 {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #f56409;
+}
+
+h2 {
+    font-size: 1.5em;
+    padding: 0.1em 0 0.6em 0;
+    font-weight: bold;
+    color: #f56409;
+}
+
+h3 {
+    font-size: 1.4em;
+    font-weight: bold;
+    color: #f56409;
+}
+
+h4 {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+h5 {
+    font-size: 1em;
+    font-weight: bold;
+}
+
+:link, :visited {
+    text-decoration:none;
+}
+:link {
+    color: #f56409;
+}
+a:hover {
+    color: #f68d4c;
+}
+a:visited {
+    color: #f56409;
+}
+
+ul, ol {
+    padding: 0.5em 1em;
+}
+
+abbr {
+    font-weight: bold;
+}
+
+/* Header
+-----------------------------------------------------------------------------*/
+#header {
+    background: #ffbf06 url('images/header.jpg') no-repeat top center;
+    margin: 0 auto 0 auto;
+    padding: 0;
+    width: 100%;
+    height: 342px;
+    font-size: 0.857em;
+}
+#header-inner {
+    width: 960px;
+    margin: 0 auto;
+    padding-top: 6px;
+    position: relative;
+}
+#header-logo {
+    display: block;
+    position: absolute;
+    margin-left: 75px;
+    width: 412px;
+    height: 115px;
+}
+.widget.header {
+    color: #fff;
+    position: absolute;
+    width: 360px;
+    padding: 20px;
+    height: 66px;
+    top: 190px;
+    left: 80px;
+    line-height: 1em;
+    overflow: hidden;
+}
+/* Navigation
+-----------------------------------------------------------------------------*/
+#navigation {
+    width: 57em;
+    text-transform: uppercase;
+    margin: 0 auto 0 auto;
+    padding: 309px 0 0 0;
+    font-weight: bold;
+}
+
+#navigation li {
+    list-style: none;
+    list-style-image:none;
+    list-style-position:outside;
+    list-style-type:none;
+    padding: 0; margin: 0;
+    float:left;
+}
+
+#navigation a {
+    padding: 0 0.5em;
+    text-decoration: none;
+    color: #3a3a3a;
+}
+#navigation a:hover {
+    color: #3a3a3a;
+}
+
+/* Main Content
+-----------------------------------------------------------------------------*/
+#page {
+    padding: 0; margin: 0 auto;
+    width: 68.571em;
+    background: #fff;
+    -moz-box-shadow: 0 0.5em 1em #888;
+    -webkit-box-shadow: 0 0.5em 1em #888;
+}
+#content.page {
+    padding: 1em 0 1em 1em;
+    width: 43.857em;
+}
+
+#top-gallery {
+    background: #dcdcdc;
+}
+#top-gallery img {
+    margin-right: 1px;
+    margin-top: 1px;
+}
+#top-gallery img:first-child {
+    margin-left: 1px;
+}
+p {
+    padding: 0.5em 0;
+}
+
+.icon-panel {
+    list-style: none;
+    padding: 0; margin-left: 0;
+}
+.icon-panel li {
+    float: left;
+    padding: 0 0.5em;
+}
+.icon-panel li a {
+    color: #000;
+    display: block;
+}
+.icon a span {
+    background: url('images/icons.png') no-repeat;
+    display: block;
+    width: 48px;
+    height: 48px;
+    margin: 0 auto;
+}
+.icon-app a span {
+    background-position: -240px 0;
+}
+.icon-cur a span {
+    background-position: -672px 0;
+}
+.icon-bro a span {
+    background-position: -48px 0;
+}
+.icon-app a:hover span {
+    background-position: -240px -48px;
+}
+.icon-cur a:hover span {
+    background-position: -672px -48px;
+}
+.icon-bro a:hover span {
+    background-position: -48px -48px;
+}
+.icon-cri a span {
+    background-position: 0 0;
+}
+.icon-cri a:hover span {
+    background-position: 0 -48px;
+}
+.icon-arc a span {
+    background-position: -336px 0;
+}
+.icon-arc a:hover span {
+    background-position: -336px -48px;
+}
+.icon-sub a span {
+    background-position: -144px 0;
+}
+.icon-sub a:hover span {
+    background-position: -144px -48px;
+}
+.icon-ori a span {
+    background-position: -288px 0;
+}
+.icon-ori a:hover span {
+    background-position: -288px -48px;
+}
+.icon-abb a span {
+    background-position: -192px 0;
+}
+.icon-abb a:hover span {
+    background-position: -192px -48px;
+}
+.icon-for a span {
+    background-position: -96px 0;
+}
+.icon-for a:hover span {
+    background-position: -96px -48px;
+}
+
+/* Summer Program
+-----------------------------------------------------------------------------*/
+#post-5 .icon-panel
+, #post-9 .icon-panel
+{
+    padding: 2em;
+    margin: 0 auto 2em auto;
+    width: 30em;
+}
+#post-5 .icon
+, #post-7 .icon
+, #post-9 .icon
+{
+    padding: 0 2em;
+}
+#post-7 .icon-panel
+{
+    padding: 2em;
+    margin: 0 auto 2em auto;
+    width: 10em;
+}
+#post-2 .icon-panel
+{
+    padding: 2em;
+    margin: 0 auto 2em auto;
+    width: 10em;
+}
+
+table td {
+    background: #ffffff;
+    padding: 3px;
+    vertical-align: middle;
+    text-align: center;
+}
+table th {
+    vertical-align: middle;
+    background: #d8d8d8;
+    font-weight: normal;
+    text-align: center;
+    padding: 0.7em 0;
+}
+table {
+    border: 1px solid #eaeaea;
+}
+blockquote {
+    text-align: center;
+}
+.contact_email_link {
+    position: relative;
+    top: 0.2em;
+}
+#post-5 table
+, #post-7 table
+{
+    width: 90%;
+    margin: 1em auto 0 auto;
+}
+
+/* Sidebar
+-----------------------------------------------------------------------------*/
+#sidebar {
+    float: right;
+    width: 21.571em;
+    position: relative;
+    background: #f5f5f5;
+    border-left: 1px solid #dcdcdc;
+    padding: 4em 1em;
+    margin-left: 1em;
+}
+#sidebar h2 {
+    padding-bottom: 0.1em;
+    font-size: 1em;
+}
+#sidebar .widget {
+    width: 20em;
+    margin-bottom: 2em;
+}
+#sidebar .widget ul {
+    padding: 0 2em 2em 3em;
+    margin: 0;
+    list-style: none;
+}
+#sidebar .widget a {
+    color: #000;
+}
+#sidebar .widget h2 a {
+    color: #f56409;
+}
+#sidebar .widget a:hover {
+    text-decoration: underline;
+}
+/* Footer
+-----------------------------------------------------------------------------*/
+#footer {
+    margin: 1em auto 0 auto;
+    width: 68.571em;
+    height: 15.714em;
+    background: #ededed url('images/footerbg.png') repeat-x top;
+    -moz-box-shadow: 0 0 1em #999;
+    -webkit-box-shadow: 0 0 1em #999;
+}
+.footer-widget {
+    float: left;
+    height: 13.714em;
+    padding: 1em;
+}
+#news {
+    width: 28.571em;
+}
+#footer .btn-panel .btn {
+    font-size: 1.083em;
+    border: 0;
+    color: #fff;
+}
+#footer .btn-panel #contact_form_info {
+    padding: 0.25em 1.6em 0.4em 1.6em;
+}
+#footer .btn:hover, #footer .btn:visited {
+    color: #fff;
+}
+.btn-blue {
+    background: url('images/btn-blue.png') no-repeat bottom right;
+}
+.btn-blue:hover {
+    background-image: url('images/btn-blue2.png');
+}
+.btn-brown {
+    background: url('images/btn-brown.png') no-repeat bottom right;
+}
+.btn-brown:hover {
+    background-image: url('images/btn-brown2.png');
+}
+.btn-green {
+    background: url('images/btn-green.png') no-repeat bottom right;
+}
+.btn-green:hover {
+    background-image: url('images/btn-green2.png');
+}
+.btn-orange {
+    background: url('images/btn-orange.png') no-repeat bottom right;
+}
+.btn-orange:hover {
+    background-image: url('images/btn-orange2.png');
+}
+/* Contact form
+-----------------------------------------------------------------------------*/
+#contact-form {
+    position: relative;
+    width: 35.4em;
+    border-left: 1px solid #dcdcdc;
+}
+#contact-form .btn-panel {
+    padding-top: 1.4em;
+}
+#contact-form input.btn {
+    padding: 0.1em 0.9em 0.3em 0.9em;
+    margin-left: 0.5em;
+}
+#contact-form input[type="text"]
+, #contact-form textarea
+{
+    background: #ededed;
+    border: 1px solid #dbdbdb;
+    padding: 0.1em;
+}
+#contact-form textarea {
+    width: 20em;
+    height: 10.2em;
+}
+#contact-form input[type="text"] {
+    width: 15em;
+}
+#contact-form input[type="text"] {
+    height: 1.3em;
+}
+#contact_thanks {
+    font-size: 1.3em;
+    text-align: center;
+    padding: 1em;
+}
+#contact_message_label {
+    float: right;
+}
+#contact_name {
+    margin-bottom: 0.5em;
+}
+#contact_msgbox {
+    font-size: 0.9em;
+    padding: 0.3em 1em;
+    position: absolute;
+    right: 1em; top: 4em;
+    background: #f5f5f5;
+    border: 1px solid #dbdbdb;
+    -moz-border-radius: 0.5em;
+    -webkit-border-radius: 0.5em;
+}
+#contact_msgbox.error {
+    color: #f00;
+    right: 3em;
+}
+#contact_msgbox ul {
+    padding: 0 0 0 2em; margin: 0.3em 0;
+    list-style: disc;
+}
+#contact_msgbox a:first-child {
+    position: absolute;
+    top: 0.1em;
+    right: 0.6em;
+}
+#contact_msgbox.message a {
+    color: #000;
+}
+.chighlight {
+    border-color: #f00 !important;
+}
+#contact-form label {
+    line-height: 1.5em;
+}
+/* Comments
+-----------------------------------------------------------------------------*/
+.comments-header {
+    color: #e51937;
+    width: 138pt;
+    height: 33pt;
+    float: right;
+}
+.comments-header div {
+    float: left;
+}
+.comments-header-l {
+    width: 9pt; height: 33pt;
+    background: url('images/button-l.png') no-repeat top left;;
+}
+.comments-header-r {
+    background: url('images/button-r.png') no-repeat top right;
+    width: 9pt; height: 33pt;
+}
+.comments-header-m {
+    background: url('images/button-m.png') repeat-x top;
+    padding: 9pt 0 3.75pt 0;
+    width: 120pt; height: 33pt;
+}
+.comments-header-m span {
+    display: block;
+    float: left;
+    padding: 0 3.75pt;
+}
+.comments-header .comments-count {
+    padding-left: 10.5pt;
+}
+.comments-header .separator {
+    font-size: 12pt;
+    margin-top: -2.25pt;
+}
+
+ol.commentlist {
+    clear: both;
+    list-style-image:none;
+    list-style-position:outside;
+    list-style-type:none;
+}
+
+.comment-meta {
+    text-align: right;
+}
+/* Forms
+-----------------------------------------------------------------------------*/
+#commentform {
+    width: 100%;
+}
+#commentform textarea {
+    width: 300pt;
+    border: 0.75pt #949494 solid;
+    -moz-border-radius: 3.75pt;
+    -webkit-border-radius: 3.75pt;
+}
+.comment-login-details {
+    float: right;
+    width: 142.5pt;
+}
+#csubmit {
+    cursor: pointer;
+    border: 0.75pt #949494 solid;
+    background: #fae9e9;
+    padding: 3.75pt;
+    margin-top: 3pt;
+    -moz-border-radius: 3.75pt;
+    -webkit-border-radius: 3.75pt;
+}
+.comment-authorinfo input {
+    padding: 1.5pt 3pt;
+    margin: 3pt 0;
+    border: 0.75pt #949494 solid;
+    width: 135pt;
+    -moz-border-radius: 3.75pt;
+    -webkit-border-radius: 3.75pt;
+}
+
+/* Tables 
+-----------------------------------------------------------------------------*/
+
+
+
+table
+    { 
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+td 
+    {
+    text-align: left;
+    font-weight: normal;
+}
+
+/* Home page style
+-----------------------------------------------------------------------------*/
+#content.page-front {
+    padding: 0;
+}
+#home-top {
+    padding: 1.5em;
+    background: #ededed url('images/amspbg.png') repeat-x;
+    border-bottom: #d4d4d4 1px solid;
+}
+#home-slideshow {
+    float: right;
+    border: 1px solid #212121;
+    margin: 0.5em 0 0 1em;
+    width: 27em;
+    height: 15.571em;
+    position: relative;
+}
+#home-slideshow img {
+    width: 27em;
+    height: 15.571em;
+}
+.slideshow-desc {
+    background: #000;
+    color: #fff;
+    opacity:0.75;filter:alpha(opacity=75);
+    position: absolute;
+    bottom: 0;
+    padding: 0.5em;
+    line-height: 1em;
+    font-size: 0.785em;
+}
+#home-top .icon-panel {
+    float: right;
+    margin-top: 1em;
+    padding: 0 1em;
+}
+.entry ul.home-widgets {
+    list-style: none;
+    margin: 0; padding: 0;
+    line-height: 1.3em;
+}
+.home-widget .icon-panel {
+    position: absolute;
+    bottom: 1em;
+    margin: 0;
+}
+#home-top .icon {
+    padding: 0 2em;
+}
+#home-top .icon:first-child {
+    padding-left: 1em;
+}
+#home-yr .icon-cur {
+    padding-left: 3em;
+}
+#home-yr .icon-app {
+    padding-left: 3.5em;
+}
+#home-mr .icon {
+    padding-left: 0.8em;
+}
+#home-xy .icon-abb {
+    padding-left: 2em;
+}
+#home-xy .icon-ori {
+    padding-left: 3.5em;
+}
+.home-widget {
+    float: left;
+    position: relative;
+    width: 21.5em;
+    padding: 1em;
+    height: 25em;
+    background: #ededed url('images/amybg.png') repeat-x;
+    border-left: 1px solid #d4d4d4;
+}
+.home-widget h2 {
+    padding: 0.5em 0 0.3em 0;
+}
+.home-widget:first-child {
+    border-left: 0;
+}
+#home-mr.home-widget {
+    width: 19.428em;
+}
+/* 404 page
+-----------------------------------------------------------------------------*/
+#searchform {
+    padding: 0.75pt;
+    margin: 0 auto;
+    width: 225pt;
+}
+input#s {
+    background: #ededed;
+    border: 0.75pt solid #dbdbdb;
+    width: 157.5pt;
+    padding: 1.5pt 3pt;
+    margin: 3pt;
+    -moz-border-radius: 3.75pt;
+    -webkit-border-radius: 3.75pt;
+}
+#searchsubmit {
+    cursor: pointer;
+    border: 0.75pt #949494 solid;
+    background: #fae9e9;
+    padding: 1.5pt 3.75pt;
+    margin-top: 3pt;
+    -moz-border-radius: 3.75pt;
+    -webkit-border-radius: 3.75pt;
+}
+
+/* XYZ Book page
+-----------------------------------------------------------------------------*/
+#book-link-1 {
+  float: right;
+  border: 1px dashed #fff;
+  margin: 0 20px;
+}
+a img {
+  border: none;
+}
+a#book-link-1:hover {
+  color: #990000;
+  border: 1px solid #990000;
+}
+#book-link-1 {
+  text-align: center;
+  text-decoration: none;
+}
+
+#book-intro-1 {
+  font-size: 1.4em;
+  line-height: 1.2em;
+  color: #f56409;
+  font-weight: bold;
+  padding: 30px;
+  margin: 5px 50px;
+  background: #fff7df;
+  border: 1px solid #f8d360;
+  text-align: center;
+}
+
+table#book-boxes {
+  border: 1px solid #ddd;
+  margin: 10px 20px;
+  width: 90%;
+  font-size: 12px;
+}
+table td#book-box-2 {
+  font-size: 2em;
+  vertical-align: middle;
+  text-align: center;
+  border-left: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  background: #fff;
+}
+table td#book-box-1, table td#book-box-3 {
+  width: 40%;
+  background: #fff;
+  text-align: center;
+}
+#book-box-1 form {
+  margin: 0;
+  padding: 0;
+}
+#xyz {
+  display: block;
+  width: 155px;
+  margin: 5px auto;
+}
+#bcenter #rarrow-1 div {
+  margin-left: 172px;
+}
+#bcenter #rarrow-1 {
+  display: block;
+  width: 207px;
+}
+
+.book-price {
+  text-align: center;
+  font-size: 1.33em;
+}
+
+/* Application, other styles, etc
+-----------------------------------------------------------------------------*/
+.highlight1 {
+  color: #f56409;
+  font-weight: bold;
+}
+
+.entry ol, .entry ul {
+  margin-left: 1em;
+}
+
+

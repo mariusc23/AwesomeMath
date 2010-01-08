@@ -1,0 +1,577 @@
+/*
+Theme Name: AwesomeMath
+Theme URI: http://craciunoiu.net/portfolio
+Description: The default awesomemath.org theme, developed by Paul & Marius @ Craciunoiu.net.
+Version: 1.0
+Author: Paul & Marius Craciunoiu
+Author URI: http://craciunoiu.net
+Tags: fixed width, two columns
+
+Copyright Paul & Marius Craciunoiu
+Under the Creative Commons license, for Non-Commercial use only.
+http://creativecommons.org/licenses/by-nc-sa/3.0/us/
+
+*/
+
+
+/* Remove margin, padding and border from everything
+-----------------------------------------------------------------------------*/
+
+* 
+    {
+    margin: 0;
+    padding: 0;
+    
+    border: 0;
+}
+
+/* Styles for layout
+-----------------------------------------------------------------------------*/
+
+.hidden {
+    display: none;
+}
+.clear {
+    clear: both;
+}
+
+/* Set up the document
+-----------------------------------------------------------------------------*/
+
+body {
+    font-family:  Helvetica, Arial, "Lucida Grande", "Lucida Sans", Tahoma, Verdana, sans-serif;
+    background: #7c7c7c;
+    text-align: left;
+    color: #000000;
+}
+
+
+h1 {
+    font-size: 2.0em;
+    font-weight: bold;
+    color: #f56409;
+}
+
+h2 {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #f56409;
+}
+
+h3 {
+    font-size: 1.6em;
+    font-weight: bold;
+    color: #f56409;
+}
+
+h4 {
+    font-size: 1.4em;
+    font-weight: bold;
+}
+
+h5 {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+:link, :visited {
+    text-decoration:none;
+}
+:link {
+    color: #f97827;
+}
+a:hover {
+    color: #ffa268;
+}
+a:visited {
+    color: #f97827;
+}
+
+ul, ol {
+    padding: 0.5em 1em;
+}
+
+/* Header
+-----------------------------------------------------------------------------*/
+#header {
+    margin: 0 auto;
+    padding: 0;
+    background: url('images/header.png') no-repeat top left;
+    width: 60em;
+    height: 3.125em;
+}
+/* Navigation
+-----------------------------------------------------------------------------*/
+#navigation {
+    float: right;
+    width: 60em;
+    text-transform: uppercase;
+    font-size: 0.8em;
+    padding: 0;
+    font-weight: bold;
+}
+
+#navigation li {
+    list-style: none;
+    list-style-image:none;
+    list-style-position:outside;
+    list-style-type:none;
+    padding: 0; margin: 0;
+    float:left;
+}
+
+#navigation li a {
+    padding: 0 0.5em;
+    text-decoration: none;
+}
+
+/* Main Content
+-----------------------------------------------------------------------------*/
+#page {
+    padding: 0; margin: 0 auto;
+    width: 60em;
+    background: #fff;
+}
+#page-inner {
+}
+
+#content {
+    width: 483pt;
+    float: left;
+}
+#content-inner {
+    background: url('images/body/body-mid.png') repeat-y left;
+    height: 100%;
+    margin: 0;
+    padding: 7.5pt 15pt 18.75pt 15pt;
+    min-height: 201pt;
+}
+.more-link {
+    display: block;
+    margin-top: 7.5pt;
+}
+#page h2.thetitle {
+    color: #e51937;
+    font-size: 13.5pt;
+    font-weight: bold;
+}
+
+.post-header {
+    padding-bottom: 7.5pt;
+}
+.submitted-info {
+    color: #949494;
+}
+p {
+    padding: 7.5pt 0;
+    line-height: 1.3em;
+}
+h2.pagetitle {
+    font-size: 18pt;
+    color: #e51937;
+    font-weight: bold;
+    padding-bottom: 7.5pt;
+}
+h2.center {
+    color: #949494;
+}
+
+/* Sidebar
+-----------------------------------------------------------------------------*/
+#sidebar {
+    float: right;
+    width: 235.5pt;
+    position: relative;
+}
+#sidebar-nav {
+    margin: 0; padding: 0;
+}
+#sidebar #wp-calendar td
+, #sidebar #wp-calendar th
+{
+    text-align: right;
+}
+#sidebar #wp-calendar {
+    width: 100%;
+}
+#sidebar #wp-calendar caption {
+    padding-top: 10.5pt;
+    padding-left: 8.25pt; 
+    font-size: 13.5pt;
+    font-weight: bold;
+    padding-bottom: 11.25pt;
+    color: #e51937;
+}
+#sidebar .widget_calendar {
+    height: 237pt;
+}
+#sidebar #wp-calendar th
+, #sidebar #wp-calendar td
+{
+    font-size: 14.25pt;
+    padding: 0 1.5pt;
+    color: #949494;
+}
+#sidebar #wp-calendar th {
+    color: #aaaaaa;
+    font-weight: normal;
+}
+#sidebar .widget {
+    background: url('images/body/sidebar-bot.png') no-repeat bottom center;
+    width: 235.5pt;
+    padding-bottom: 10.5pt;
+    margin-bottom: 7.5pt;
+}
+#sidebar .widgettitle {
+    color: #e51937;
+    font-size: 13.5pt;
+    background: url('images/body/sidebar-top.png') no-repeat top center;
+    position: relative;
+    font-weight: bold;
+    width: 235.5pt;
+    height: 10.5pt;
+    padding-top: 16.5pt;
+}
+#sidebar .textwidget {
+    background: url('images/body/sidebar-mid.png') repeat-y center;
+    width: 205.5pt;
+    padding: 22.5pt 15pt 0 15pt;
+    margin-top: -25px;
+}
+#sidebar #calendar_wrap {
+    background: url('images/body/sidebar-mid.png') repeat-y center;
+    width: 198pt;
+    height: 231pt;
+    position: relative;
+    margin-top: -18.75pt;
+    padding: 0px 26.25pt 0 11.25pt;
+}
+#sidebar #sidebar-nav {
+    list-style-image:none;
+    list-style-position:outside;
+    list-style-type:none;
+}
+#sidebar #sidebar-nav h2 {
+    text-align: center;
+}
+#sidebar #sidebar-nav ul {
+    padding: 3.75pt 15pt;
+    list-style-type: disc;
+}
+/* Footer
+-----------------------------------------------------------------------------*/
+
+#footer {
+    background: url('images/footer.png') no-repeat top center;
+    margin: 4.5pt auto 0 auto;
+    height: 156.75pt;
+    width: 723pt;
+    font-size: 10.5pt;
+    text-align: left;
+}
+#footer-inner {
+    position: relative;
+    padding: 3.75pt 0;
+}
+#footer li {
+    list-style: none;
+}
+#footer-navigation {
+    position: absolute;
+    top: 126pt;
+    height: 25.5pt;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: 0;
+    width: 720pt;
+    left: 9pt;
+}
+#footer-navigation, #footer-navigation ul {
+    float:left;
+    list-style-image:none;
+    list-style-position:outside;
+    list-style-type:none;
+}
+
+#footer-navigation li {
+    float: left;
+    height: 25.5pt;
+}
+#footer-navigation li a {
+    padding: 6pt 6pt 0 6pt;
+}
+
+#footer-navigation a {
+    display: block;
+    text-decoration: none;
+}
+
+
+/* Comments
+-----------------------------------------------------------------------------*/
+.comments-header {
+    color: #e51937;
+    width: 138pt;
+    height: 33pt;
+    float: right;
+}
+.comments-header div {
+    float: left;
+}
+.comments-header-l {
+    width: 9pt; height: 33pt;
+    background: url('images/button-l.png') no-repeat top left;;
+}
+.comments-header-r {
+    background: url('images/button-r.png') no-repeat top right;
+    width: 9pt; height: 33pt;
+}
+.comments-header-m {
+    background: url('images/button-m.png') repeat-x top;
+    padding: 9pt 0 3.75pt 0;
+    width: 120pt; height: 33pt;
+}
+.comments-header-m span {
+    display: block;
+    float: left;
+    padding: 0 3.75pt;
+}
+.comments-header .comments-count {
+    padding-left: 10.5pt;
+}
+.comments-header .separator {
+    font-size: 12pt;
+    margin-top: -2.25pt;
+}
+
+ol.commentlist {
+    clear: both;
+    list-style-image:none;
+    list-style-position:outside;
+    list-style-type:none;
+}
+
+.comment-meta {
+    text-align: right;
+}
+/* Forms
+-----------------------------------------------------------------------------*/
+#commentform {
+    width: 100%;
+}
+#commentform textarea {
+    width: 300pt;
+    border: 0.75pt #949494 solid;
+    -moz-border-radius: 3.75pt;
+    -webkit-border-radius: 3.75pt;
+}
+.comment-login-details {
+    float: right;
+    width: 142.5pt;
+}
+#csubmit {
+    cursor: pointer;
+    border: 0.75pt #949494 solid;
+    background: #fae9e9;
+    padding: 3.75pt;
+    margin-top: 3pt;
+    -moz-border-radius: 3.75pt;
+    -webkit-border-radius: 3.75pt;
+}
+.comment-authorinfo input {
+    padding: 1.5pt 3pt;
+    margin: 3pt 0;
+    border: 0.75pt #949494 solid;
+    width: 135pt;
+    -moz-border-radius: 3.75pt;
+    -webkit-border-radius: 3.75pt;
+}
+
+/* Contact form
+-----------------------------------------------------------------------------*/
+#footer-contact {
+    font-size: 9.75pt;
+    position: absolute;
+    top: 4.5pt;
+    right: 10.5pt;
+    width: 198.75pt;
+    height: 105pt;
+    overflow: visible;
+}
+#footer-contact table {
+    width: 100%;
+    height: 88.5pt;
+}
+#footer-contact input[type="text"]
+, #footer-contact textarea {
+    background: #ededed;
+    float: right;
+    border: 0.75pt solid #dbdbdb;
+    width: 157.5pt;
+}
+#footer-contact label {
+    text-align: right;
+    display: block;
+}
+#footer-contact textarea {
+    height: 45pt;
+}
+#footer-contact input[type="submit"] {
+    background: none;
+    position: absolute;
+    right: 0;
+    color: #e51937;
+    cursor: pointer;
+}
+
+#footer-contact table tr td {
+    padding: 2.25pt 0;
+}
+#footer-contact table td.second {
+    width: 165pt;
+}
+#footer-contact #contact-info {
+    margin-left: 2.25pt;
+}
+#footer-contact #dekoboko_end {
+    margin-top: 2.25pt;
+}
+#footer-contact #contact-information {
+    display: none;
+    height: 88.5pt;
+    text-align: center;
+}
+#footer-contact .contact_recaptcha {
+    display: none;
+}
+#footer-contact #contact_recaptcha {
+    z-index: 100;
+    margin-top: -8.25pt;
+}
+#footer-contact .widgettitle {
+    color: #e51937;
+    font-size: 13.5pt;
+    font-weight: bold;
+}
+#footer-contact input.chighlight
+, #footer-contact textarea.chighlight {
+    border-color: #e51937;
+}
+#footer-contact label.chighlight {
+    color: #e51937;
+}
+#footer-contact #error_message {
+    display: none;
+    z-index: 9000;
+    position: absolute;
+    background: #fff;
+    top: 15pt;
+    left: 15pt;
+    color: #e51937;
+    border: #e51937 solid 0.75pt;
+    padding: 3.75pt;
+    text-align: center;
+    height: 45pt;
+    width: 165pt;
+}
+#footer-contact #error_message a {
+    font-weight: bold;
+}
+
+/* Tables 
+-----------------------------------------------------------------------------*/
+
+
+
+table
+    
+    { 
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+td 
+    
+    {
+    text-align: left;
+    font-weight: normal;
+}
+
+/* Home page style
+-----------------------------------------------------------------------------*/
+
+#homepage-top .widget {
+    float: left;
+    padding-bottom: 10.5pt;
+    margin-bottom: 7.5pt;
+    height: 237pt;
+}
+#homepage-top #hnewsfeed.widget {
+    background: url('images/body/news-bot.png') no-repeat bottom center;
+    width: 175.5pt;
+    margin-right: 4.5pt;
+}
+#homepage-top #hphotos.widget {
+    background: url('images/body/photos-bot.png') no-repeat bottom center;
+    width: 303pt;
+}
+#homepage-top .widgettitle {
+    text-align: center;
+    color: #e51937;
+    font-size: 13.5pt;
+    position: relative;
+    font-weight: bold;
+    height: 10.5pt;
+    padding-top: 16.5pt;
+}
+#homepage-top #hnewsfeed .widgettitle {
+    background: url('images/body/news-top.png') no-repeat top center;
+    width: 175.5pt;
+}
+#homepage-top #hphotos .widgettitle {
+    background: url('images/body/photos-top.png') no-repeat top center;
+    width: 303pt;
+}
+#homepage-top .textwidget {
+    padding: 30.75pt 15pt 0 15pt;
+    margin-top: -18.75pt;
+    overflow: hidden;
+}
+#homepage-top #hnewsfeed .textwidget {
+    height: 198pt;
+    background: url('images/body/news-mid.png') repeat-y center;
+    width: 145.5pt;
+}
+#homepage-top #hphotos .textwidget {
+    height: 198pt;
+    background: url('images/body/photos-mid.png') repeat-y center;
+    width: 273pt;
+}
+
+/* 404 page
+-----------------------------------------------------------------------------*/
+#searchform {
+    padding: 0.75pt;
+    margin: 0 auto;
+    width: 225pt;
+}
+input#s {
+    background: #ededed;
+    border: 0.75pt solid #dbdbdb;
+    width: 157.5pt;
+    padding: 1.5pt 3pt;
+    margin: 3pt;
+    -moz-border-radius: 3.75pt;
+    -webkit-border-radius: 3.75pt;
+}
+#searchsubmit {
+    cursor: pointer;
+    border: 0.75pt #949494 solid;
+    background: #fae9e9;
+    padding: 1.5pt 3.75pt;
+    margin-top: 3pt;
+    -moz-border-radius: 3.75pt;
+    -webkit-border-radius: 3.75pt;
+}
+
+
