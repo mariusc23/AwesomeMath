@@ -1,17 +1,4 @@
 RewriteEngine On
-# Home page
-Redirect /index.shtml   /home
-Redirect /index.html    /home
-# Rest of them
-Redirect /summer.shtml  /summer-program
-Redirect /staff.shtml   /summer-program/staff
-Redirect /faq.shtml     /summer-program/faq
-Redirect /yearround.shtml /year-round-program
-Redirect /application.shtml /summer-program/application
-Redirect /reflections.shtml /mathematical-reflections
-Redirect /forum.shtml /forum
-Redirect /amypayment.shtml /mathematical-reflections/registration
-Redirect /problems-book.shtml /xyz-press
 
 # BEGIN WordPress
 RewriteBase /
@@ -24,3 +11,17 @@ RewriteCond %{HTTP_HOST} ^awesomemath-org.craciunoiu.net$ [OR]
 RewriteCond %{HTTP_HOST} ^www.awesomemath-org.craciunoiu.net$
 RewriteRule ^/?$ "http\:\/\/awesomemath\.org" [R=301,L]
 
+# Old redirects. These should no longer be necessary.
+# Home page
+# Redirect /index.shtml   /home
+# Redirect /index.html    /home
+# Rest of them
+# Redirect /summer.shtml  /summer-program
+# Redirect /staff.shtml   /summer-program/staff
+# Redirect /faq.shtml     /summer-program/faq
+# Redirect /yearround.shtml /year-round-program
+# Redirect /application.shtml /summer-program/application
+# Redirect /reflections.shtml /mathematical-reflections
+# Redirect /forum.shtml /forum
+# Redirect /amypayment.shtml /mathematical-reflections/registration
+# Redirect /problems-book.shtml /xyz-press

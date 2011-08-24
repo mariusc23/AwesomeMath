@@ -12,10 +12,12 @@ jQuery(function($){
 			$('.flickr-mini-gallery').each(function (i) {
 					$(this).empty();					 
 					var filter = $(this).attr('rel');
-					var format = $(this).attr("lang");
+					var formatArray = $(this).attr("lang").split("&");
+					var format = formatArray[0];
+					var formatGal = formatArray[1];
 					var hasTitle = $(this).hasClass("fmg-hover-image");
 					var is_photoset = $(this).attr('longdesc');
-					build_gallery(filter, this, format, hasTitle, is_photoset);
+					build_gallery(filter, this, format, hasTitle, is_photoset, formatGal);
 					
 			});
 			
@@ -23,7 +25,7 @@ jQuery(function($){
 		
 		
 	}
-	function build_gallery(filter, obj, format, hasTitle, is_photoset){
+	function build_gallery(filter, obj, format, hasTitle, is_photoset, formatGal){
 	  if(is_photoset == "photoset"){
 	  	var api = "http://api.flickr.com/services/rest/?method=flickr.photosets.getPhotos&api_key=36c8b00c47e8934ff302dcad7775d0a2&"+filter;
 	  }else{
@@ -37,14 +39,14 @@ jQuery(function($){
 		        	if(typeof item.description != "undefined"){var description = item.description._content;}else{var description = "";}
 		        	if(hasTitle){var titleImg = '';}else{var titleImg = item.title;}
 				      var attrib = {src: "http://farm"+item.farm+".static.flickr.com/"+item.server+"/"+item.id+"_"+item.secret+format+".jpg", alt:item.title, longdesc:"http://www.flickr.com/photos/"+data.photoset.owner+"/"+item.id, rel:description, title:titleImg}
-					  $("<img/>").attr(attrib).appendTo(obj).wrap("<a href=http://farm"+item.farm+".static.flickr.com/"+item.server+"/"+item.id+"_"+item.secret+".jpg alt="+item.id+"></a>").addClass("flickr-mini-gallery-thumb");
+					  $("<img/>").attr(attrib).appendTo(obj).wrap("<a href=http://farm"+item.farm+".static.flickr.com/"+item.server+"/"+item.id+"_"+item.secret+formatGal+".jpg alt="+item.id+formatGal+"></a>").addClass("flickr-mini-gallery-thumb");
 			         });
 		        }else{
 		        	$.each(data.photos.photo, function(i,item){
 		        		if(typeof item.description != "undefined"){var description = item.description._content;}else{var description = "";}
 		        		if(hasTitle){var titleImg = '';}else{var titleImg = item.title;}
 				       var attrib = {src: "http://farm"+item.farm+".static.flickr.com/"+item.server+"/"+item.id+"_"+item.secret+format+".jpg", alt:item.title, longdesc:"http://www.flickr.com/photos/"+item.owner+"/"+item.id, rel:description, title:titleImg}
-					  $("<img/>").attr(attrib).appendTo(obj).wrap("<a href=http://farm"+item.farm+".static.flickr.com/"+item.server+"/"+item.id+"_"+item.secret+".jpg alt="+item.id+"></a>").addClass("flickr-mini-gallery-thumb");
+					  $("<img/>").attr(attrib).appendTo(obj).wrap("<a href=http://farm"+item.farm+".static.flickr.com/"+item.server+"/"+item.id+"_"+item.secret+formatGal+".jpg alt="+item.id+formatGal+"></a>").addClass("flickr-mini-gallery-thumb");
 			         });
 		        }
 		        

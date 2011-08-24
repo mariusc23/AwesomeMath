@@ -4,7 +4,7 @@ Plugin Name: Flickr Gallery
 Plugin URI: http://co.deme.me/projects/flickr-gallery/
 Description: Use easy shortcodes to insert Flickr galleries and photos (and videos) in your blog.
 Author: Dan Coulter
-Version: 1.4.0
+Version: 1.5.2
 Author URI: http://dancoulter.com/
 */ 
 
@@ -30,19 +30,19 @@ Author URI: http://dancoulter.com/
  * @author     Dan Coulter <dan@dancoulter.com>
  * @copyright  Copyright 2009 Dan Coulter
  * @license    http://www.gnu.org/licenses/gpl.txt GPL 2.0
- * @version    1.3.1-dev
+ * @version    1.5.2
  * @link       http://co.deme.me/projects/flickr-gallery/
  */
 
 if ( !defined('WP_CONTENT_URL') )
-	define( 'WP_CONTENT_URL', get_option('siteurl') . '/wp-content');
+	define( 'WP_CONTENT_URL', get_option('wpurl') . '/wp-content');
 if ( !defined('WP_CONTENT_DIR') )
 	define( 'WP_CONTENT_DIR', ABSPATH . 'wp-content' );
 	
 if ( defined('CODEMEME_TEST') ) {
 	define('CM_FLICKR_GALLERY_VERSION', rand());
 } else {
-	define('CM_FLICKR_GALLERY_VERSION', '1.3.1');
+	define('CM_FLICKR_GALLERY_VERSION', '1.5.2');
 }
 	
 class DC_FlickrGallery {
@@ -93,13 +93,13 @@ class DC_FlickrGallery {
 			}
 			wp_enqueue_script('jquery-ui-tabs');			
 			wp_enqueue_script('jquery-flightbox', DC_FlickrGallery::getURL() . 'flightbox/jquery.flightbox.js', array(), CM_FLICKR_GALLERY_VERSION);			
-			wp_enqueue_style('flickr-gallery', DC_FlickrGallery::getURL() . 'flickr-gallery.css', array(), CM_FLICKR_GALLERY_VERSION);			
+			wp_enqueue_style('flickr-gallery', DC_FlickrGallery::getURL() . 'flickr-gallery.css', array(), CM_FLICKR_GALLERY_VERSION, 'all');			
 			if ( DC_FlickrGallery::get_major_version() >= 2.8 ) {
-				wp_enqueue_style('fg-jquery-ui', DC_FlickrGallery::getURL() . 'tab-theme/jquery-ui-1.7.3.css', array(), '1.7.3');			
+				wp_enqueue_style('fg-jquery-ui', DC_FlickrGallery::getURL() . 'tab-theme/jquery-ui-1.7.3.css', array(), '1.7.3', 'all');			
 			} else {
-				wp_enqueue_style('fg-jquery-ui', DC_FlickrGallery::getURL() . 'tab-theme/jquery-ui-1.5.2.css', array(), '1.5.2');
+				wp_enqueue_style('fg-jquery-ui', DC_FlickrGallery::getURL() . 'tab-theme/jquery-ui-1.5.2.css', array(), '1.5.2', 'all');
 			}
-			wp_enqueue_style('jquery-flightbox', DC_FlickrGallery::getURL() . 'flightbox/jquery.flightbox.css', array(), CM_FLICKR_GALLERY_VERSION);			
+			wp_enqueue_style('jquery-flightbox', DC_FlickrGallery::getURL() . 'flightbox/jquery.flightbox.css', array(), CM_FLICKR_GALLERY_VERSION, 'all');			
 		}
 		
 		if ( $_GET['action'] == 'flickr-gallery-photoset' ) {
@@ -297,12 +297,12 @@ class DC_FlickrGallery {
 														}
 														$("#photostream .flickr-thumb").css("visibility", "hidden");
 														//$("#photostream").css("background", "transparent url(<?php echo DC_FlickrGallery::getURL() ?>flightbox/images/loading-2.gif) scroll no-repeat center center");
-														$.post("<?php echo $_SERVER['REQUEST_URI'] ?>", {
+														$.post("<?php echo get_bloginfo('wpurl') ?>", {
 															action: 'flickr-gallery-page',
 															pager: "<?php echo str_replace('"', '\\"', serialize($pager)) ?>",
-															page: flickr_gallery_photostream_page,
+															page: flickr_gallery_photostream_page
 														}, function(rsp){
-															console.log(rsp);
+															//console.log(rsp);
 															//$("#photostream").css("background-image", "none");
 															$("#photostream .flickr-photos").html(rsp.html);
 															<?php if ( get_option('fg-flightbox') === false || get_option('fg-flightbox') ) : ?>
@@ -357,7 +357,7 @@ class DC_FlickrGallery {
 												$(document).ready(function(){
 													function flickr_gallery_load_photoset($display, id, page) {
 														$display.find(".flickr-thumb").css("visibility", "hidden");
-														$display.load("<?php echo get_bloginfo('url') ?>?action=flickr-gallery-photoset&pagination=<?php echo $attr['pagination'] ?>&page=" + page + "&id=" + id, null, function(){
+														$display.load("<?php echo trailingslashit(get_bloginfo('wpurl')) ?>?action=flickr-gallery-photoset&pagination=<?php echo $attr['pagination'] ?>&page=" + page + "&id=" + id, null, function(){
 															<?php if ( get_option('fg-flightbox') === false || get_option('fg-flightbox') ) : ?>
 																$display.find(".flickr-thumb img").flightbox({size_callback: get_sizes});
 															<?php endif; ?>
@@ -421,7 +421,7 @@ class DC_FlickrGallery {
 												$(function(){
 													function flickr_gallery_load_photoset($display, id, page) {
 														$display.find(".flickr-thumb").css("visibility", "hidden");
-														$display.load("<?php echo get_bloginfo('url') ?>?action=flickr-gallery-photoset&pagination=<?php echo $attr['pagination'] ?>&page=" + page + "&id=" + id, null, function(){
+														$display.load("<?php echo trailingslashit(get_bloginfo('wpurl')) ?>?action=flickr-gallery-photoset&pagination=<?php echo $attr['pagination'] ?>&page=" + page + "&id=" + id, null, function(){
 															<?php if ( get_option('fg-flightbox') === false || get_option('fg-flightbox') ) : ?>
 																$display.find(".flickr-thumb img").flightbox({size_callback: get_sizes});
 															<?php endif; ?>
@@ -648,7 +648,7 @@ class DC_FlickrGallery {
 				'width' => null,
 			), $attr);
 
-			if ( ereg( '/([0-9]+)/?$', $content, $match) ) {
+			if ( preg_match( '|/([0-9]+)/?$|', $content, $match) ) {
 				$id = $match[1];
 			} else {
 				$id = $content;
@@ -792,7 +792,7 @@ class DC_FlickrGallery {
 				<form method="post" action="admin-ajax.php" id="flickr-gallery-settings">
 					<input type="hidden" name="action" value="flickr_gallery_settings" />
 					<?php wp_nonce_field('flickr-gallery'); ?>
-					<input type="hidden" name="page_options" value="fg-tabs,fg-API-key,fg-secret,fg-token,fg-user_id,fg-per_page,fg-db-cache,fg-credit-link,fg-flightbox,fg-flightbox-large" />
+					<input type="hidden" name="page_options" value="fg-tabs,fg-API-key,fg-secret,fg-token,fg-user_id,fg-per_page,fg-db-cache,fg-credit-link,fg-flightbox,fg-flightbox-large,fg-flightbox-description" />
 					<p>
 						<?php _e('Flickr <a href="http://www.flickr.com/services/api/keys/">API Key</a>:', 'flickr-gallery') ?>
 						<input type="text" name="fg-API-key" value="<?php echo get_option('fg-API-key'); ?>" />
@@ -828,8 +828,10 @@ class DC_FlickrGallery {
 						<input id="fg-flightbox" type="checkbox" value="1" name="fg-flightbox" <?php echo ( get_option('fg-flightbox') === false || get_option('fg-flightbox') ) ? 'checked="checked"' : '' ?> />
 					</p>
 					<p>
-						<label for="fg-flightbox-large"><?php _e('Display the largest photo that will fit in the user\'s window (slows it down slightly):', 'flickr-gallery') ?></label>
-						<input id="fg-flightbox-large" type="checkbox" value="1" name="fg-flightbox-large" <?php echo ( get_option('fg-flightbox-large') ) ? 'checked="checked"' : '' ?> />
+						<label for="fg-flightbox-large"><?php _e('Display the largest photo that will fit in the user\'s window in the lightbox (slows it down slightly):', 'flickr-gallery') ?></label>
+						<input id="fg-flightbox-large" type="checkbox" value="1" name="fg-flightbox-large" <?php echo ( get_option('fg-flightbox-large') ) ? 'checked="checked"' : '' ?> /><br />
+						<label for="fg-flightbox-description"><?php _e('Display the photo\'s description in the lightbox:', 'flickr-gallery') ?></label>
+						<input id="fg-flightbox-description" type="checkbox" value="1" name="fg-flightbox-description" <?php echo ( get_option('fg-flightbox-description') ) ? 'checked="checked"' : '' ?> /><br />
 					</p>
 					<p>
 						Tabs to display for the default [flickr-gallery] shortcode:
@@ -999,14 +1001,12 @@ class DC_FlickrGallery {
 			'photoset_id' => $id,
 			'extras' => 'media',
 		), get_option('fg-per_page'));
-		
-		$url = $phpFlickr->urls_getUserPhotos($pager->results['owner']);
-		
+				
 		?>
 			<div class="flickr-photos">
 				<?php foreach ( $pager->get($page) as $key => $photo ) : ?>
 					<div class="flickr-thumb">
-						<a href="http://flickr.com/photo.gne?id=<?php echo $url . $photo['id'] ?>"><img class="<?php echo $photo['media'] ?>" title="<?php echo str_replace("\"", "\\\"", $photo['title']) ?>" alt="<?php echo str_replace("\"", "\\\"", $photo['title']) ?>" src="<?php echo $phpFlickr->buildPhotoURL($photo, 'square') ?>" /></a>
+						<a href="http://flickr.com/photo.gne?id=<?php echo $photo['id'] ?>"><img class="<?php echo $photo['media'] ?>" title="<?php echo str_replace("\"", "\\\"", $photo['title']) ?>" alt="<?php echo str_replace("\"", "\\\"", $photo['title']) ?>" src="<?php echo $phpFlickr->buildPhotoURL($photo, 'square') ?>" /></a>
 					</div>
 				<?php endforeach ?>
 				<div class="fg-clear"></div>
@@ -1029,7 +1029,13 @@ class DC_FlickrGallery {
 	
 	function ajax_sizes() {
 		global $phpFlickr;
-		$result = $phpFlickr->photos_getSizes($_POST['id']);
+		if ( get_option('fg-flightbox-description') ) {
+			$result = $phpFlickr->photos_getInfo($_POST['id']);
+			$description = nl2br($result['description']);
+		} else {
+			$description = '';
+		}
+		$result = array('description' => $description, 'sizes'=>$phpFlickr->photos_getSizes($_POST['id']));
 		die(json_encode($result));
 
 	}
@@ -1050,7 +1056,7 @@ class DC_FlickrGallery {
 								},
 								dataType: "json",
 								type: "POST",
-								url: "<?php echo get_bloginfo('url') ?>",
+								url: "<?php echo trailingslashit(get_bloginfo('wpurl')) ?>",
 								success: function(rsp) {
 									sizes = rsp;
 								}

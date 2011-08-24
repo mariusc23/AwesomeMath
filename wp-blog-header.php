@@ -14,6 +14,7 @@ if ( !isset($wp_did_header) ) {
 	wp();
 
 	require_once( ABSPATH . WPINC . '/template-loader.php' );
+
 }
 
 ?>

@@ -4,18 +4,23 @@ Donate link: http://www.felipesk.com/flickr-mini-gallery/
 Plugin URI: http://www.felipesk.com/flickr-mini-gallery/
 Tags: flickr, gallery, photos, ajax, image, images, photo
 Requires at least: 2.5
-Tested up to: 1.2
+Tested up to: 1.3
 Stable tag: trunk
 
 ==Description==
 
 Mini flickr gallery is a easy way to embed super flexible galeries from any flickr account or group, using different parameters to customise it.
 
-Now with new features on 1.2 you can also load a photoset and load descriptions of your images on the lightbox.
+Now with new features on 1.3 you can also load a photoset, load descriptions of your images on the lightbox, add images from the text editor, change image sizes of the lightbox.
 
 This plugin is a gallery generator / lightbox view combo. Very easy to add to your post or page. Type a little code like [miniflickr user="yourusercode" tags="tag1&tag2"] and done. You'll have a super flexible gallery on your post
 
 ==Changelog==
+
+Version 1.3
+
+   1. Now is possible add galleries from a tiny MCE (text editor) interface
+   2. Possible to change image size of the light box
 
 Version 1.2
 

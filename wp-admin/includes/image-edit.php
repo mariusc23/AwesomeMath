@@ -39,12 +39,16 @@ function wp_image_editor($post_id, $msg = false) {
 	<div class="imgedit-menu">
 		<div onclick="imageEdit.crop(<?php echo "$post_id, '$nonce'"; ?>, this)" class="imgedit-crop disabled" title="<?php esc_attr_e( 'Crop' ); ?>"></div><?php
 
+	// On some setups GD library does not provide imagerotate() - Ticket #11536
 	if ( function_exists('imagerotate') ) { ?>
-
-		<div onclick="imageEdit.rotate(90, <?php echo "$post_id, '$nonce'"; ?>, this)" class="imgedit-rleft" title="<?php esc_attr_e( 'Rotate couter-clockwise' ); ?>"></div>
-		<div onclick="imageEdit.rotate(-90, <?php echo "$post_id, '$nonce'"; ?>, this)" class="imgedit-rright" title="<?php esc_attr_e( 'Rotate clockwise' ); ?>"></div><?php
-
-	} ?>
+		<div class="imgedit-rleft"  onclick="imageEdit.rotate( 90, <?php echo "$post_id, '$nonce'"; ?>, this)" title="<?php esc_attr_e( 'Rotate counter-clockwise' ); ?>"></div>
+		<div class="imgedit-rright" onclick="imageEdit.rotate(-90, <?php echo "$post_id, '$nonce'"; ?>, this)" title="<?php esc_attr_e( 'Rotate clockwise' ); ?>"></div>
+<?php } else {
+		$note_gdlib = esc_attr__('Image rotation is not supported by your web host (function imagerotate() is missing)');
+?>
+	    <div class="imgedit-rleft disabled"  title="<?php echo $note_gdlib; ?>"></div>
+	    <div class="imgedit-rright disabled" title="<?php echo $note_gdlib; ?>"></div>
+<?php } ?>
 
 		<div onclick="imageEdit.flip(1, <?php echo "$post_id, '$nonce'"; ?>, this)" class="imgedit-flipv" title="<?php esc_attr_e( 'Flip vertically' ); ?>"></div>
 		<div onclick="imageEdit.flip(2, <?php echo "$post_id, '$nonce'"; ?>, this)" class="imgedit-fliph" title="<?php esc_attr_e( 'Flip horizontally' ); ?>"></div>
@@ -92,10 +96,10 @@ function wp_image_editor($post_id, $msg = false) {
 	<div class="imgedit-group-top">
 		<a class="imgedit-help-toggle" onclick="imageEdit.toggleHelp(this);return false;" href="#"><strong><?php _e('Restore Original Image'); ?></strong></a>
 		<div class="imgedit-help">
-		<p><?php _e('Discard any changes and restore the original image.'); 
+		<p><?php _e('Discard any changes and restore the original image.');
 
 		if ( !defined('IMAGE_EDIT_OVERWRITE') || !IMAGE_EDIT_OVERWRITE )
-			_e(' Previously edited copies of the image will not be deleted.');
+			echo ' '.__('Previously edited copies of the image will not be deleted.');
 
 		?></p>
 		<div class="imgedit-submit">
@@ -114,7 +118,7 @@ function wp_image_editor($post_id, $msg = false) {
 		<a class="imgedit-help-toggle" onclick="imageEdit.toggleHelp(this);return false;" href="#"><?php _e('(help)'); ?></a>
 		<div class="imgedit-help">
 		<p><?php _e('The image can be cropped by clicking on it and dragging to select the desired part. While dragging the dimensions of the selection are displayed below.'); ?></p>
-		<strong><?php _e('Keyboard shortcuts'); ?></strong>
+		<strong><?php _e('Keyboard Shortcuts'); ?></strong>
 		<ul>
 		<li><?php _e('Arrow: move by 10px'); ?></li>
 		<li><?php _e('Shift + arrow: move by 1px'); ?></li>
@@ -197,10 +201,11 @@ function load_image_to_edit($post_id, $mime_type, $size = 'full') {
 	$filepath = get_attached_file($post_id);
 
 	if ( $filepath && file_exists($filepath) ) {
-		if ( 'full' != $size && ( $data = image_get_intermediate_size($post_id, $size) ) )
-			$filepath = path_join( dirname($filepath), $data['file'] );
-	} elseif ( WP_Http_Fopen::test() ) {
-		$filepath = wp_get_attachment_url($post_id);
+		if ( 'full' != $size && ( $data = image_get_intermediate_size($post_id, $size) ) ) {
+			$filepath = apply_filters('load_image_to_edit_filesystempath', path_join( dirname($filepath), $data['file'] ), $post_id, $size);
+		}
+	} elseif ( function_exists('fopen') && function_exists('ini_get') && true == ini_get('allow_url_fopen') ) {
+		$filepath = apply_filters('load_image_to_edit_attachmenturl', wp_get_attachment_url($post_id) , $post_id, $size);
 	}
 
 	$filepath = apply_filters('load_image_to_edit_path', $filepath, $post_id, $size);
@@ -386,7 +391,7 @@ function image_edit_apply_changes($img, $changes) {
 
 function stream_preview_image($post_id) {
 	$post = get_post($post_id);
-	@ini_set('memory_limit', '256M');
+	@ini_set( 'memory_limit', apply_filters( 'admin_memory_limit', WP_MAX_MEMORY_LIMIT ) );
 	$img = load_image_to_edit( $post_id, $post->post_mime_type, array(400, 400) );
 
 	if ( !is_resource($img) )
@@ -417,7 +422,7 @@ function wp_restore_image($post_id) {
 	$file = get_attached_file($post_id);
 	$backup_sizes = get_post_meta( $post_id, '_wp_attachment_backup_sizes', true );
 	$restored = false;
-	$msg = '';
+	$msg = new stdClass;
 
 	if ( !is_array($backup_sizes) ) {
 		$msg->error = __('Cannot load image metadata.');
@@ -449,7 +454,7 @@ function wp_restore_image($post_id) {
 		$meta['file'] = _wp_relative_upload_path( $restored_file );
 		$meta['width'] = $data['width'];
 		$meta['height'] = $data['height'];
-		list ( $uwidth, $uheight ) = wp_shrink_dimensions($meta['width'], $meta['height']);
+		list ( $uwidth, $uheight ) = wp_constrain_dimensions($meta['width'], $meta['height'], 128, 96);
 		$meta['hwstring_small'] = "height='$uheight' width='$uwidth'";
 	}
 
@@ -488,10 +493,10 @@ function wp_restore_image($post_id) {
 }
 
 function wp_save_image($post_id) {
-	$return = '';
+	$return = new stdClass;
 	$success = $delete = $scaled = $nocrop = false;
 	$post = get_post($post_id);
-	@ini_set('memory_limit', '256M');
+	@ini_set( 'memory_limit', apply_filters( 'admin_memory_limit', WP_MAX_MEMORY_LIMIT ) );
 	$img = load_image_to_edit($post_id, $post->post_mime_type);
 
 	if ( !is_resource($img) ) {
@@ -546,7 +551,7 @@ function wp_save_image($post_id) {
 
 	// generate new filename
 	$path = get_attached_file($post_id);
-	$path_parts = pathinfo52( $path );
+	$path_parts = pathinfo( $path );
 	$filename = $path_parts['filename'];
 	$suffix = time() . rand(100, 999);
 
@@ -594,7 +599,7 @@ function wp_save_image($post_id) {
 		$meta['width'] = imagesx($img);
 		$meta['height'] = imagesy($img);
 
-		list ( $uwidth, $uheight ) = wp_shrink_dimensions($meta['width'], $meta['height']);
+		list ( $uwidth, $uheight ) = wp_constrain_dimensions($meta['width'], $meta['height'], 128, 96);
 		$meta['hwstring_small'] = "height='$uheight' width='$uwidth'";
 
 		if ( $success && ('nothumb' == $target || 'all' == $target) ) {

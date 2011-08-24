@@ -1,0 +1,161 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+
+	<title>Add flickr mini gallery</title>
+	
+
+<link rel="stylesheet" href="../../../../wp-includes/js/tinymce/themes/advanced/skins/wp_theme/dialog.css">
+<script src="../../../../wp-includes/js/tinymce/tiny_mce_popup.js" type="text/javascript"></script>
+<script src="../../../../wp-includes/js/jquery/jquery.js" type="text/javascript"></script>
+<style media="screen" type="text/css">
+	fieldset{border:none; margin: 5px 0;}
+	.panel_wrapper{border: none; font-family: "Lucida Sans", "Lucida Grande", "Lucida Sans Unicode", sans-serif; height: 360px; margin-bottom: 20px; }
+	legend, .description{font-family: "Lucida Sans", "Lucida Grande", "Lucida Sans Unicode", sans-serif; color: #333; font-size: 12px;}
+	.description{color: #999; font-style: italic; font-size: 10px;}
+	fieldset input, fieldset select{font-size: 12px; padding: 4px; border: solid 1px #bbb;}
+	.donation{padding: 5px 10px; margin: 10px 5px; background: #DFFAFF; border: #8BD1DF solid 1px; display: inline-block;}
+</style>
+<script type="text/javascript">
+	jQuery(document).ready(function($){
+		$("#photoset").hide();
+		$("#groupid").hide();
+		
+		$('#from').change(function() {
+			var val = $(this).val();
+			if(val=="user"){
+				$("#photoset").hide();
+				$("#userid").show();
+				$("#tagsfield").show();
+				$("#groupid").hide();
+			}else if(val=="set"){
+				$("#photoset").show();
+				$("#userid").hide();
+				$("#tagsfield").hide();
+				$("#groupid").hide();
+			}else if(val=="group"){
+				$("#photoset").hide();
+				$("#groupid").show();
+				$("#userid").hide();
+				$("#tagsfield").show();
+			}
+			else{
+				$("#groupid").hide();
+				$("#userid").hide();
+				$("#photoset").hide();
+				$("#tagsfield").show();
+			}
+		})
+     
+     
+     
+
+     
+     });
+	function code_builder () {
+		val = document.getElementById('from').value;
+	
+		photoset_id = 'photoset_id='+ document.getElementById('photoset_id').value;
+		user_id = 'user_id='+ document.getElementById('user_id').value;
+		group_id = 'group_id='+ document.getElementById('group_id').value;
+		tags = '&tags='+ document.getElementById('tags').value;
+		sortby = '&sortby='+ document.getElementById('sortby').value;
+		per_page = '&per_page='+ document.getElementById('per_page').value;
+		
+		code = '[miniflickr ';
+		if(val=="set"){
+			code += photoset_id;
+		}
+		if(val=="user"){
+			code += user_id;
+		}
+		if(val=="group"){
+			code += group_id;
+		}
+		if(val!="set"){
+		 code += tags;
+		}
+		code += sortby;
+		code += per_page;
+		code += ']';
+		
+		//code += '[/miniflickr]'
+		tinyMCEPopup.execCommand('mceInsertContent',false,code);
+		return false;
+	};
+	</script>
+
+</head>
+<body style="" id="fmg-popup">
+<div class="panel_wrapper">
+		<div class="panel current" id="general_panel">
+<fieldset>
+    <legend>Get photos from:</legend>
+     
+    <select name="from" id="from">
+    	<option value="user">User</option>
+    	<option value="set">Photo set</option>
+    	<option value="group">Group</option>
+    	<option value="all">All Flickr</option>
+    </select>
+    
+</fieldset>
+
+<fieldset id="photoset">
+	<legend>Photoset ID</legend>
+	<input type="text" size="30" id="photoset_id" /><br />
+	<span class="description">eg: 72157594194826952</span>
+</fieldset>
+
+<fieldset id="userid">
+	<legend>User ID</legend>
+	<input type="text" size="30" id="user_id" /><br />
+	<span class="description">eg: 56755410@N00 | <a href="http://idgettr.com/" target="_self">get your id</a></span>
+</fieldset>
+
+<fieldset id="groupid">
+	<legend>Group ID</legend>
+	<input type="text" size="30" id="group_id" /><br />
+	<span class="description">eg: 77185913@N00 | <a href="http://idgettr.com/" target="_self">get a group id</a></span>
+</fieldset>
+
+<fieldset id="tagsfield">
+	<legend>Tags</legend>
+	<input type="text" size="30" id="tags" /><br />
+	<span class="description">Tags followed by comma eg: tag1,tag2,tag3</span>
+</fieldset>
+
+<fieldset id="sort">
+	<legend>Sort by</legend>
+	<select name="from" id="sortby">
+    	<option value="date-posted-asc">date-posted-asc</option>
+    	<option value="date-posted-desc">date-posted-desc</option>
+    	<option value="date-taken-asc">date-taken-asc</option>
+    	<option value="date-taken-desc">date-taken-desc</option>
+    	<option value="interestingness-desc">interestingness-desc</option>
+    	<option value="interestingness-asc">interestingness-asc</option>
+    	<option value="relevance">relevance</option>
+    </select>
+</fieldset>
+
+<fieldset id="sort">
+	<legend>Max number of images</legend>
+	<input id="per_page" type="number" min="0" max="500" step="10" value="50" size="4"/><br />
+	<span class="description">Is the max size of your gallery if it has more than the limit</span>
+</fieldset>
+
+<span class="donation"> If this plugin is useful for you please consider a <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=WX3HCCLUEK6RC&lc=NZ&item_name=FMG%20Plugin&currency_code=NZD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted">donation</a></span>
+</div>
+</div>
+
+<div class="mceActionPanel">
+		<div style="float: left;">
+			<input type="button" onclick="tinyMCEPopup.close();" value="Cancel" name="cancel" id="cancel">
+		</div>
+
+		<div style="float: right;">
+			<input type="submit" value="Insert" name="insert gallery" id="insert" onclick="code_builder ()">
+		</div>
+	</div>
+
+</body></html>

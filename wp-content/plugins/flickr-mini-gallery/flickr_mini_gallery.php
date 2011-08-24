@@ -2,10 +2,10 @@
 /*
 Plugin Name: Flickr mini gallery
 Plugin URI: http://wordpress.org/#
-Description: This plugin is a gallery generator / lightbox view combo. Very easy to add to your post or page [miniflickr user="your_user_code" tags="tag1&tag2"] or [miniflickr photoset_id="your_photoset_id" ]
+Description: This plugin is a gallery generator / lightbox view combo. Very easy to add to your post or page using short tags or the text editor
 Author: Felipe Skroski	
 Licence:GPL 3
-Version: 1.2
+Version: 1.3
 Author URI: www.felipesk.com
 */
 
@@ -57,6 +57,7 @@ function build_mini_gallery($atts, $content='Loading... mini-flickr-gallery by F
 	$format = $opts['mfg_thumbformat'];
 	$hover = $opts['mfg_hover'];
 	$description = $opts['mfg_description'];
+	$galformat = $opts['mfg_galleryformat'];
 	extract(shortcode_atts(array(
 		'photoset_id' 		=>'',
 		'lang' 				=>'',
@@ -102,16 +103,17 @@ function build_mini_gallery($atts, $content='Loading... mini-flickr-gallery by F
 		$desc = "";
 	}
 	if($code == $lang or $lang==''){
-		$flickr_gal = "<div class='flickr-mini-gallery ".$class."' lang=".$format." rel=\"user_id={$user_id}&tags={$tags}&min_upload_date={$min_upload_date}&max_upload_date={$max_upload_date}&min_taken_date={$min_taken_date}&max_taken_date={$max_taken_date}&license={$license}&sort={$sort}&bbox={$bbox}&accuracy={$accuracy}&safe_search={$safe_search}&content_type={$content_type}&machine_tags={$machine_tags}&group_id={$group_id}&lat={$lat}&lon={$lon}&radius_units={$radius_units}&per_page={$per_page}&extras={$extras}$desc\" longdesc='photosearch'>{$content}</div>";
+		$flickr_gal = "<div class='flickr-mini-gallery ".$class."' lang=\"$format&$galformat\" rel=\"user_id={$user_id}&tags={$tags}&min_upload_date={$min_upload_date}&max_upload_date={$max_upload_date}&min_taken_date={$min_taken_date}&max_taken_date={$max_taken_date}&license={$license}&sort={$sort}&bbox={$bbox}&accuracy={$accuracy}&safe_search={$safe_search}&content_type={$content_type}&machine_tags={$machine_tags}&group_id={$group_id}&lat={$lat}&lon={$lon}&radius_units={$radius_units}&per_page={$per_page}&extras={$extras}$desc\" longdesc='photosearch'>{$content}</div>";
 	}else{
 		$flickr_gal ="";
 	}
 	if($photoset_id != ''){
-		$flickr_gal = "<div class='flickr-mini-gallery ".$class."' lang=".$format." rel=\"photoset_id={$photoset_id}&extras={$extras}$desc\" longdesc='photoset'>{$content}</div>";
+		$flickr_gal = "<div class='flickr-mini-gallery ".$class."' lang=".$format.'&'.$galformat." rel=\"photoset_id={$photoset_id}&extras={$extras}$desc\" longdesc='photoset'>{$content}</div>";
 	}
 	return $flickr_gal;
 }
 add_shortcode('miniflickr', 'build_mini_gallery');
+
 
 //----------------------------------------------------//
 //OPTIONS
@@ -121,6 +123,7 @@ function mfg_get_options() {
 	$mfg_thumbformat = get_option('mfg_thumbformat');
 	$mfg_hover = get_option('mfg_hover');
 	$mfg_description = get_option('mfg_description');
+	$mfg_galleryformat = get_option('mfg_galleryformat');
 	
 	// Extra paranoia:
 	if(empty($mfg_userid))
@@ -132,11 +135,16 @@ function mfg_get_options() {
 	if(empty($mfg_description))
 		$mfg_description = 'no';
 		
+	if(empty($mfg_galleryformat))
+		$mfg_galleryformat = '';
+		
 	return array(
 		'mfg_userid' => $mfg_userid,
 		'mfg_thumbformat' => $mfg_thumbformat,
 		'mfg_hover' => $mfg_hover,
 		'mfg_description' => $mfg_description,
+		'mfg_galleryformat' => $mfg_galleryformat,
+		
 	);
 }
 
@@ -151,7 +159,7 @@ function mfg_get_options() {
 // action function for above hook
 function mfg_add_pages() {
     // Add a new submenu under Options:
-    add_options_page('Mini Flickr Gallery', 'Mini Flickr Gallery', 8, 'miniflickrgallery', 'mfg_options_page');
+    add_options_page('Flickr Mini Gallery', 'Flickr Mini Gallery', 8, 'miniflickrgallery', 'mfg_options_page');
 }
 // mfg_options_page() displays the page content for the Options submenu
 function mfg_options_page() {
@@ -160,17 +168,19 @@ function mfg_options_page() {
 		update_option('mfg_thumbformat', $_POST['mfg_thumbformat'] );
 		update_option('mfg_hover', $_POST['mfg_hover'] );
 		update_option('mfg_description', $_POST['mfg_description'] );
+		update_option('mfg_galleryformat', $_POST['mfg_galleryformat'] );
+		
 		
 		?><div class="updated"><p><strong><?php _e('Options saved.', 'eg_trans_domain' ); ?></strong></p></div><?php
 	};
 
     ?>
 	<div class='wrap'>
-		<h2>Mini Flickr Gallery Options</h2>
+		<h2>Flickr Mini Gallery Options</h2>
 		<form method='post'>
 			<?php wp_nonce_field('miniflickrgallery_options'); ?>
 			<input type="hidden" name="action" value="update" />
-			<input type="hidden" name="page_options" value="mfg_userid,mfg_thumbformat,mfg_language,mfg_hover" />
+			<input type="hidden" name="page_options" value="mfg_userid,mfg_thumbformat,mfg_language,mfg_hover,mfg_galleryformat" />
 			<table class="form-table">
 				<tbody>
 					<tr valign="top">
@@ -193,6 +203,19 @@ function mfg_options_page() {
 								</select>
 								<br/>
 						Square is 75px x 75px and Thumbnail is 100px max						</p></td>
+					</tr>
+					
+					<tr valign="top">
+					<th scope="row"><?php _e("Lightbox image size:", 'eg_trans_domain' ); ?></th>
+						<td>
+							<p>
+							<?php $imgGal = get_option('mfg_galleryformat'); ?>
+								<select name="mfg_galleryformat">
+									<option value ="" <?php if($imgGal == "")echo 'selected="selected"'; ?>>500px</option>
+  									<option value ="_z" <?php if($imgGal == "_z")echo 'selected="selected"'; ?>>640px</option>
+  									<option value ="_b" <?php if($imgGal == "_b")echo 'selected="selected"'; ?>>1024px</option>
+								</select>
+												</p></td>
 					</tr>
 					
 					<tr valign="top">
@@ -232,5 +255,39 @@ function mfg_options_page() {
 }
 
 add_action('admin_menu', 'mfg_add_pages');
+
+//----------------------------------------------------//
+//ADD BUTTON TO TINY MCE
+//----------------------------------------------------//
+
+class FMG_Buttons {
+   function FMG_Buttons(){
+    if(is_admin()){
+        if ( current_user_can('edit_posts') && current_user_can('edit_pages') && get_user_option('rich_editing') == 'true')
+        {
+           add_filter('tiny_mce_version', array(&$this, 'tiny_mce_version') );
+           add_filter("mce_external_plugins", array(&$this, "mce_external_plugins"));
+           add_filter('mce_buttons', array(&$this, 'mce_buttons'));
+        }
+    }
+   }
+   function mce_buttons($buttons) {
+    array_push($buttons, "|", "flickr_mini_gallery" );
+    return $buttons;
+   }
+   function mce_external_plugins($plugin_array) {
+    $plugin_array['flickr_mini_gallery']  =  plugins_url('/flickr-mini-gallery/tiny-mce/editor-plugin.js');
+    return $plugin_array;
+   }
+   function tiny_mce_version($version) {
+    return ++$version;
+   }
+}
+ 
+add_action('init', 'FMG_Buttons');
+function FMG_Buttons(){
+   global $FMG_Buttons;
+   $FMG_Buttons = new FMG_Buttons();
+}
 
 ?>

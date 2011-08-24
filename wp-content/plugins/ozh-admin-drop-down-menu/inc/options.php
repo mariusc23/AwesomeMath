@@ -65,7 +65,7 @@ function wp_ozh_adminmenu_options_page() {
 	</td></tr>
 
     <tr><th scope="row"><?php echo wp_ozh_adminmenu__('Color Scheme'); ?></th>
-	<td><input type="text" id="oam_grad" name="oam_grad" size="7" value="<?php echo $grad ?>" /><img id="oam_cp_toggle" src="<?php echo WP_PLUGIN_URL.'/'.plugin_basename(dirname(__FILE__)).'/images/'; ?>color_wheel.png" /> <label for="oam_grad"><?php printf(wp_ozh_adminmenu__("Pick a color for your menu bar, using the color wheel or one of the presets")); ?><br/>
+	<td><input type="text" id="oam_grad" name="oam_grad" size="7" value="<?php echo $grad ?>" /><img id="oam_cp_toggle" src="<?php echo wp_ozh_adminmenu_pluginurl().'inc/images/'; ?>color_wheel.png" /> <label for="oam_grad"><?php printf(wp_ozh_adminmenu__("Pick a color for your menu bar, using the color wheel or one of the presets")); ?><br/>
 	<label><?php wp_ozh_adminmenu_checkbox('nograd'); ?>  <?php echo wp_ozh_adminmenu__('No subtle gradient, just plain color.');?></label>
 	<div id="oam_cp_wrap">
 	<div id="oam_colorpicker" style="display:none"></div>
@@ -97,7 +97,7 @@ function wp_ozh_adminmenu_options_page() {
 		'#eb8d19',
 		'#6cd440',
 	);
-	$bgurl = $wp_ozh_adminmenu['nograd'] ? '' : WP_PLUGIN_URL.'/'.plugin_basename(dirname(__FILE__)).'/images/grad-trans.png';
+	$bgurl = $wp_ozh_adminmenu['nograd'] ? '' : wp_ozh_adminmenu_pluginurl().'inc/images/grad-trans.png';
 	foreach ($colors as $color) {
 		echo '
 		<div class="oam_cp_preset" title="'.$color.'" style="background:'.$color.' url('.$bgurl.') repeat-x left top;"></div>
@@ -116,11 +116,6 @@ function wp_ozh_adminmenu_options_page() {
 	<?php echo wp_ozh_adminmenu__("Remove the whole header bar for maximum screen real estate. Note: The quick link to your blog will be added to the menu, the Logout link in the Users sub-menu."); ?>
 	</td></tr>
 
-    <tr id="oam_fav_row"><th scope="row"><?php echo wp_ozh_adminmenu__('Favorite Actions'); ?></th>
-	<td><label><?php wp_ozh_adminmenu_checkbox('displayfav'); ?>  <?php echo wp_ozh_adminmenu__('Display Favorite Actions'); ?></label><br/>
-	<?php echo wp_ozh_adminmenu__("Just in case you realize you don't need this anymore with such a fast and usable menu."); ?>
-	</td></tr>
-	
     <tr><th scope="row"><?php echo wp_ozh_adminmenu__('Break Long Lists'); ?></th>
 	<td><label><?php printf(wp_ozh_adminmenu__('Break if more than %s menu entries'), "<input type=\"text\" value=\"$too_many_plugins\" size=\"2\" name=\"oam_too_many_plugins\">"); ?></label><br/>
 	<?php echo wp_ozh_adminmenu__('If a dropdown gets longer than this value, it will switch to horizontal mode so that it will hopefully fit in your screen (requires javascript)'); ?>
@@ -172,8 +167,7 @@ function wp_ozh_adminmenu_options_page() {
 	
 	// Sublevel icons
 	// TODO
-	
-	
+		
 	// Color picking
 	var f;
 	jQuery(document).ready(function(){
@@ -268,7 +262,7 @@ function wp_ozh_adminmenu_options_page() {
 	<li><?php echo wp_ozh_adminmenu__('you want to uninstall the plugin and leave no unnecessary entries in your database.');?></li>
 	<li><?php echo wp_ozh_adminmenu__('you want all settings to be reverted to their default values');?></li>
 	</ul>
-	<p class="submit" style="border-top:0px;padding:0;"><input style="color:red" name="submit" value="<?php echo wp_ozh_adminmenu__('Reset Settings');?>" onclick="return(confirm('<?php echo js_escape(wp_ozh_adminmenu__('Really do?'));?>'))" type="submit" /></p>
+	<p class="submit" style="border-top:0px;padding:0;"><input style="color:red" name="submit" value="<?php echo wp_ozh_adminmenu__('Reset Settings');?>" onclick="return(confirm('<?php echo esc_js(wp_ozh_adminmenu__('Really do?'));?>'))" type="submit" /></p>
 	<p><?php echo wp_ozh_adminmenu__('There is no undo, so be very sure you want to click the button!');?></p>
 	
 	</form>
@@ -278,8 +272,8 @@ function wp_ozh_adminmenu_options_page() {
 }
 
 // Sanitize string for display: escape HTML but preserve UTF8 (or whatever)
-function wp_ozh_adminmenu_sanitize($string) {
-	return stripslashes(attribute_escape($string));
+function wp_ozh_adminmenu_sanitize( $string ) {
+	return stripslashes( esc_attr( $string ) );
 	//return stripslashes(htmlentities($string, ENT_COMPAT, get_bloginfo('charset')));
 }
 

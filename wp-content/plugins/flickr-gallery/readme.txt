@@ -3,8 +3,8 @@ Contributors: dancoulter
 Donate link: http://co.deme.me/donate/
 Tags: photos, flickr, gallery, shortcodes
 Requires at least: 2.9
-Tested up to: 3.0
-Stable tag: 1.4.0
+Tested up to: 3.0.1
+Stable tag: 1.5.2
 
 Quickly and easily add Flickr galleries, photos, and even custom search results into your WordPress pages and posts.
 
@@ -32,8 +32,9 @@ Features include:
 * All images smaller than "medium" will load in the lightbox effect (if enabled) when the user clicks on them.
 * Add a "Collections" tab to the default gallery
 * Select which tabs the gallery displays
-* **New**: Set the lightbox to display larger than "medium" photos if the user's browser window is large enough.
-* **New**: Easier "Web" based authentication to the Flickr API.
+* Set the lightbox to display larger than "medium" photos if the user's browser window is large enough.
+* Easier "Web" based authentication to the Flickr API.
+* **New**: Show the photo's description inside the lightbox alongside the larger photos.
 
 == Installation ==
 

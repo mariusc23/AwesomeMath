@@ -161,7 +161,7 @@ function get_the_content_feed($feed_type = null) {
  * @param string $feed_type The type of feed. rss2 | atom | rss | rdf
  */
 function the_content_feed($feed_type = null) {
-	echo get_the_content_feed();
+	echo get_the_content_feed($feed_type);
 }
 
 /**
@@ -186,7 +186,17 @@ function the_excerpt_rss() {
  * @uses apply_filters() Call 'the_permalink_rss' on the post permalink
  */
 function the_permalink_rss() {
-	echo apply_filters('the_permalink_rss', get_permalink());
+	echo esc_url( apply_filters('the_permalink_rss', get_permalink() ));
+}
+
+/**
+ * Outputs the link to the comments for the current post in an xml safe way
+ *
+ * @since 3.0.0
+ * @return none
+ */
+function comments_link_feed() {
+	echo esc_url( get_comments_link() );
 }
 
 /**
@@ -194,12 +204,12 @@ function the_permalink_rss() {
  *
  * @package WordPress
  * @subpackage Feed
- * @since unknown
+ * @since 2.5.0
  *
  * @param int|object $comment_id Optional comment object or id. Defaults to global comment object.
  */
 function comment_guid($comment_id = null) {
-	echo get_comment_guid($comment_id);
+	echo esc_url( get_comment_guid($comment_id) );
 }
 
 /**
@@ -207,7 +217,7 @@ function comment_guid($comment_id = null) {
  *
  * @package WordPress
  * @subpackage Feed
- * @since unknown
+ * @since 2.5.0
  *
  * @param int|object $comment_id Optional comment object or id. Defaults to global comment object.
  * @return bool|string false on failure or guid for comment on success.
@@ -475,7 +485,7 @@ function prep_atom_text_construct($data) {
  * @since 2.5
  */
 function self_link() {
-	$host = @parse_url(get_option('home'));
+	$host = @parse_url(home_url());
 	$host = $host['host'];
 	echo esc_url(
 		'http'
@@ -524,7 +534,8 @@ function fetch_feed($url) {
 	$feed->set_feed_url($url);
 	$feed->set_cache_class('WP_Feed_Cache');
 	$feed->set_file_class('WP_SimplePie_File');
-	$feed->set_cache_duration(apply_filters('wp_feed_cache_transient_lifetime', 43200));
+	$feed->set_cache_duration(apply_filters('wp_feed_cache_transient_lifetime', 43200, $url));
+	do_action_ref_array( 'wp_feed_options', array( &$feed, $url ) );
 	$feed->init();
 	$feed->handle_content_type();
 

@@ -6,10 +6,10 @@
 */
 
 if ( typeof tb_pathToImage != 'string' ) {
-	var tb_pathToImage = "../wp-includes/js/thickbox/loadingAnimation.gif";
+	var tb_pathToImage = thickboxL10n.loadingAnimation;
 }
 if ( typeof tb_closeImage != 'string' ) {
-	var tb_closeImage = "../wp-includes/js/thickbox/tb-close.png";
+	var tb_closeImage = thickboxL10n.closeImage;
 }
 
 /*!!!!!!!!!!!!!!!!! edit below this line at your own risk !!!!!!!!!!!!!!!!!!!!!!!*/
@@ -23,14 +23,16 @@ jQuery(document).ready(function(){
 
 //add thickbox to href & area elements that have a class of .thickbox
 function tb_init(domChunk){
-	jQuery(domChunk).click(function(){
+	jQuery(domChunk).live('click', tb_click);
+}
+
+function tb_click(){
 	var t = this.title || this.name || null;
 	var a = this.href || this.alt;
 	var g = this.rel || false;
 	tb_show(t,a,g);
 	this.blur();
 	return false;
-	});
 }
 
 function tb_show(caption, url, imageGroup) {//function called when the user clicks on a thickbox link
@@ -40,7 +42,7 @@ function tb_show(caption, url, imageGroup) {//function called when the user clic
 			jQuery("body","html").css({height: "100%", width: "100%"});
 			jQuery("html").css("overflow","hidden");
 			if (document.getElementById("TB_HideSelect") === null) {//iframe to hide select elements in ie6
-				jQuery("body").append("<iframe id='TB_HideSelect'></iframe><div id='TB_overlay'></div><div id='TB_window'></div>");
+				jQuery("body").append("<iframe id='TB_HideSelect'>"+thickboxL10n.noiframes+"</iframe><div id='TB_overlay'></div><div id='TB_window'></div>");
 				jQuery("#TB_overlay").click(tb_remove);
 			}
 		}else{//all others
@@ -156,26 +158,26 @@ function tb_show(caption, url, imageGroup) {//function called when the user clic
 
 			}
 
-			document.onkeydown = function(e){
-				if (e == null) { // ie
-					keycode = event.keyCode;
-				} else { // mozilla
-					keycode = e.which;
-				}
-				if(keycode == 27){ // close
-					tb_remove();
-				} else if(keycode == 190){ // display previous image
+			jQuery(document).bind('keydown.thickbox', function(e){
+				e.stopImmediatePropagation();
+
+				if ( e.which == 27 ){ // close
+					if ( ! jQuery(document).triggerHandler( 'wp_CloseOnEscape', [{ event: e, what: 'thickbox', cb: tb_remove }] ) )
+						tb_remove();
+
+				} else if ( e.which == 190 ){ // display previous image
 					if(!(TB_NextHTML == "")){
-						document.onkeydown = "";
+						jQuery(document).unbind('thickbox');
 						goNext();
 					}
-				} else if(keycode == 188){ // display next image
+				} else if ( e.which == 188 ){ // display next image
 					if(!(TB_PrevHTML == "")){
-						document.onkeydown = "";
+						jQuery(document).unbind('thickbox');
 						goPrev();
 					}
 				}
-			};
+				return false;
+			});
 
 			tb_position();
 			jQuery("#TB_load").remove();
@@ -198,10 +200,10 @@ function tb_show(caption, url, imageGroup) {//function called when the user clic
 					urlNoQuery = url.split('TB_');
 					jQuery("#TB_iframeContent").remove();
 					if(params['modal'] != "true"){//iframe no modal
-						jQuery("#TB_window").append("<div id='TB_title'><div id='TB_ajaxWindowTitle'>"+caption+"</div><div id='TB_closeAjaxWindow'><a href='#' id='TB_closeWindowButton' title='"+thickboxL10n.close+"'><img src='" + tb_closeImage + "' /></a></div></div><iframe frameborder='0' hspace='0' src='"+urlNoQuery[0]+"' id='TB_iframeContent' name='TB_iframeContent"+Math.round(Math.random()*1000)+"' onload='tb_showIframe()' style='width:"+(ajaxContentW + 29)+"px;height:"+(ajaxContentH + 17)+"px;' > </iframe>");
+						jQuery("#TB_window").append("<div id='TB_title'><div id='TB_ajaxWindowTitle'>"+caption+"</div><div id='TB_closeAjaxWindow'><a href='#' id='TB_closeWindowButton' title='"+thickboxL10n.close+"'><img src='" + tb_closeImage + "' /></a></div></div><iframe frameborder='0' hspace='0' src='"+urlNoQuery[0]+"' id='TB_iframeContent' name='TB_iframeContent"+Math.round(Math.random()*1000)+"' onload='tb_showIframe()' style='width:"+(ajaxContentW + 29)+"px;height:"+(ajaxContentH + 17)+"px;' >"+thickboxL10n.noiframes+"</iframe>");
 					}else{//iframe modal
 					jQuery("#TB_overlay").unbind();
-						jQuery("#TB_window").append("<iframe frameborder='0' hspace='0' src='"+urlNoQuery[0]+"' id='TB_iframeContent' name='TB_iframeContent"+Math.round(Math.random()*1000)+"' onload='tb_showIframe()' style='width:"+(ajaxContentW + 29)+"px;height:"+(ajaxContentH + 17)+"px;'> </iframe>");
+						jQuery("#TB_window").append("<iframe frameborder='0' hspace='0' src='"+urlNoQuery[0]+"' id='TB_iframeContent' name='TB_iframeContent"+Math.round(Math.random()*1000)+"' onload='tb_showIframe()' style='width:"+(ajaxContentW + 29)+"px;height:"+(ajaxContentH + 17)+"px;'>"+thickboxL10n.noiframes+"</iframe>");
 					}
 			}else{// not an iframe, ajax
 					if(jQuery("#TB_window").css("display") != "block"){
@@ -231,7 +233,7 @@ function tb_show(caption, url, imageGroup) {//function called when the user clic
 					jQuery("#TB_window").css({display:"block"});
 				}else if(url.indexOf('TB_iframe') != -1){
 					tb_position();
-					if($.browser.safari){//safari needs help because it will not fire iframe onload
+					if(jQuery.browser.safari){//safari needs help because it will not fire iframe onload
 						jQuery("#TB_load").remove();
 						jQuery("#TB_window").css({display:"block"});
 					}
@@ -247,16 +249,16 @@ function tb_show(caption, url, imageGroup) {//function called when the user clic
 		}
 
 		if(!params['modal']){
-			document.onkeyup = function(e){
-				if (e == null) { // ie
-					keycode = event.keyCode;
-				} else { // mozilla
-					keycode = e.which;
+			jQuery(document).bind('keyup.thickbox', function(e){
+
+				if ( e.which == 27 ){ // close
+					e.stopImmediatePropagation();
+					if ( ! jQuery(document).triggerHandler( 'wp_CloseOnEscape', [{ event: e, what: 'thickbox', cb: tb_remove }] ) )
+						tb_remove();
+
+					return false;
 				}
-				if(keycode == 27){ // close
-					tb_remove();
-				}
-			};
+			});
 		}
 
 	} catch(e) {
@@ -279,8 +281,7 @@ function tb_remove() {
 		jQuery("body","html").css({height: "auto", width: "auto"});
 		jQuery("html").css("overflow","");
 	}
-	document.onkeydown = "";
-	document.onkeyup = "";
+	jQuery(document).unbind('.thickbox');
 	return false;
 }
 

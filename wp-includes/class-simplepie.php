@@ -1,4 +1,5 @@
 <?php
+if ( !class_exists( 'SimplePie' ) ) :
 /**
  * SimplePie
  *
@@ -1830,7 +1831,7 @@ class SimplePie
 	}
 
 	/**
-	 * Return the error message for the occured error
+	 * Return the error message for the occurred error
 	 *
 	 * @access public
 	 * @return string Error message
@@ -4066,16 +4067,16 @@ class SimplePie_Item
 					$temp = explode(':', $this->sanitize($duration_parent[0]['data'], SIMPLEPIE_CONSTRUCT_TEXT));
 					if (sizeof($temp) > 0)
 					{
-						(int) $seconds = array_pop($temp);
+						$seconds = (int) array_pop($temp);
 					}
 					if (sizeof($temp) > 0)
 					{
-						(int) $minutes = array_pop($temp);
+						$minutes = (int) array_pop($temp);
 						$seconds += $minutes * 60;
 					}
 					if (sizeof($temp) > 0)
 					{
-						(int) $hours = array_pop($temp);
+						$hours = (int) array_pop($temp);
 						$seconds += $hours * 3600;
 					}
 					unset($temp);
@@ -9426,7 +9427,7 @@ class SimplePie_Misc
 		}
 
 		// This is first, as behaviour of this is completely predictable
-		if ($input === 'Windows-1252' && $output === 'UTF-8')
+		if ($input === 'windows-1252' && $output === 'UTF-8')
 		{
 			return SimplePie_Misc::windows_1252_to_utf8($data);
 		}
@@ -14997,5 +14998,5 @@ class SimplePie_Sanitize
 		}
 	}
 }
-
+endif;
 ?>

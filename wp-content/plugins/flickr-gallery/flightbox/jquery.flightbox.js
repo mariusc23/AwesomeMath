@@ -20,7 +20,7 @@
  * @author     Dan Coulter <dan@dancoulter.com>
  * @copyright  Copyright 2009 Dan Coulter
  * @license    http://www.gnu.org/licenses/gpl.txt GPL 2.0
- * @version    1.0.1
+ * @version    1.0.2
  * @link       http://co.deme.me/projects/flickr-gallery/
  */
 ;(function($){
@@ -34,10 +34,10 @@
 		
 		$flightbox.prepend("<img id='flightbox-image' src='' />");
 		$image = $("#flightbox-image");
+		$("#flightbox-image").after("<div id='flightbox-meta'><div id='flightbox-close'></div><div id='flightbox-title'></div><div id='flightbox-description'></div><div id='flightbox-flickr-link'><a href='' target='_blank'>View this <span id='flightbox-type'>photo</span> on Flickr</a></div></div>");
 
 		$image.unbind("load");
 		$image.load(function(){
-			$("#flightbox-image").after("<div id='flightbox-meta'><div id='flightbox-close'></div><div id='flightbox-title'></div><div id='flightbox-flickr-link'><a href='' target='_blank'>View this <span id='flightbox-type'>photo</span> on Flickr</a></div></div>");
 			$("#flightbox-title").html($calling.attr("title"));
 			$("#flightbox-flickr-link a").attr("href", $calling.parent("a").attr("href"));
 			$("#flightbox-meta").css({width:$image.innerWidth()});
@@ -113,17 +113,20 @@
 		if ( options.size_callback == null || $calling.hasClass("video") ) {
 			$image.attr("src", $calling.attr("src").replace(/_[stm]\./g, "."));
 		} else {
+			info = options.size_callback($calling.attr("src").match(/[^\/]+_[^\/]+_[st].jpg/g)[0].split("_")[0]);
+			$("#flightbox-description").html(info.description);
 			max_width = $(window).width() - 30;
 			max_height = $(window).height() - 50 - 30 - $("#flightbox-meta").height();
-			sizes = options.size_callback($calling.attr("src").match(/[^\/]+_[^\/]+_[st].jpg/g)[0].split("_")[0]);
+			//console.log($("#flightbox-description"));
+			//console.log($("#flightbox-image"));
 			var index = -1;
-			$.each(sizes, function(key){
+			$.each(info.sizes, function(key){
 				if ( index == -1 && (this.width > max_width || this.height > max_height) ) {
 					index = key - 1;
 				}
 			});
-			if ( index == -1 ) index = sizes.length - 1;
-			$image.attr("src", sizes[index].source);
+			if ( index == -1 ) index = info.sizes.length - 1;
+			$image.attr("src", info.sizes[index].source);
 		}
 
 		

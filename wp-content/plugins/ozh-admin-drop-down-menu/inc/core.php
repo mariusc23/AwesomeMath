@@ -10,7 +10,14 @@ function wp_ozh_adminmenu () {
 	
 	// echo "<pre>";print_r($menu);print_r($submenu);echo "</pre>";
 	
+	// Plugins: hack $menu & $submenu before I butcher them
+	$menu = apply_filters( 'pre_ozh_adminmenu_menu', $menu );
+	$submenu = apply_filters( 'pre_ozh_adminmenu_submenu', $submenu ); 
+	
 	$ozh_menu = '<div id="ozhmenu_wrap"><ul id="ozhmenu">';
+	
+	// Plugins: hack $ozh_menu before I start adding stuff to it
+	$ozh_menu = apply_filters( 'pre_ozh_adminmenu_ozh_menu', $ozh_menu );
 	
 	if ($wp_ozh_adminmenu['minimode'])
 		$ozh_menu .= '<li id="oam_bloglink" class="ozhmenu_toplevel">'.wp_ozh_adminmenu_blogtitle().'</li>';
@@ -52,7 +59,7 @@ function wp_ozh_adminmenu () {
 			$fullstyle = 'inline';
 		}
 
-		if ( $submenu_as_parent && !empty($submenu[$item[2]]) ) {
+		if ( isset( $submenu_as_parent ) && !empty( $submenu[$item[2]] ) ) {
 			$submenu[$item[2]] = array_values($submenu[$item[2]]);  // Re-index.
 			$menu_hook = get_plugin_page_hook($submenu[$item[2]][0][2], $item[2]);
 			if ( ( ('index.php' != $submenu[$item[2]][0][2]) && file_exists(WP_PLUGIN_DIR . "/{$submenu[$item[2]][0][2]}") ) || !empty($menu_hook)) {
@@ -93,6 +100,8 @@ function wp_ozh_adminmenu () {
 
 		// Sub level menus
 		if ( !empty($submenu[$item[2]]) ) {
+			if( !isset( $ulclass ) )
+				$ulclass = '';
 			$ozh_menu .= "\n\t\t<ul$ulclass><li class='toplevel_label'>$anchor</li>\n";
 			$first = true;
 			foreach ( $submenu[$item[2]] as $sub_key => $sub_item ) {
@@ -150,6 +159,9 @@ function wp_ozh_adminmenu () {
 				
 				$subid = 'oamsub_'.wp_ozh_adminmenu_sanitize_id($sub_item[2]);
 				$subanchor = strip_tags($sub_item[0]);
+				
+				if( !isset( $icon ) )
+					$icon = '';
 
 				$ozh_menu .= "\t\t\t<li class='ozhmenu_sublevel $icon' id='$subid'><a href='$suburl'$subclass>$subanchor</a></li>\n";
 			}			
@@ -161,11 +173,14 @@ function wp_ozh_adminmenu () {
 	
 	$ozh_menu .= "</ul></div>";
 	
-	if ($plugin_icons) {
+	// Plugins: hack $ozh_menu now it's complete
+	$ozh_menu = apply_filters( 'post_ozh_adminmenu_ozh_menu', $ozh_menu );
+
+	if ( isset( $plugin_icons ) ) {
 		global $text_direction;
 		$align = ($text_direction == 'rtl' ? 'right' : 'left');
 		echo "\n".'<style type="text/css">'."\n";
-		foreach($plugin_icons as $hook=>$icon) {
+		foreach( $plugin_icons as $hook=>$icon ) {
 			$hook = plugin_basename($hook);
 			//echo "#oamsub_$hook a {background-image:url($icon);}\n";
 			echo "#oamsub_$hook a {background:url($icon) center $align no-repeat;}\n";
@@ -209,8 +224,8 @@ function wp_ozh_adminmenu_js() {
 		$toomanyplugins = $defaults['too_many_plugins'];
 		unset( $defaults );
 	}
-	$plugin_url = WP_PLUGIN_URL.'/'.plugin_basename(dirname(__FILE__));
-	$insert_main_js = '<script src="'.$plugin_url.'/adminmenu.js" type="text/javascript"></script>';
+	$plugin_url = wp_ozh_adminmenu_pluginurl();
+	$insert_main_js = '<script src="'.$plugin_url.'inc/js/adminmenu.js?v='. OZH_MENU_VER .'" type="text/javascript"></script>';
 
 	echo <<<JS
 <script type="text/javascript"><!--//--><![CDATA[//><!--
@@ -235,14 +250,14 @@ function wp_ozh_adminmenu_css() {
 		
 	// $submenu = ($wp_ozh_adminmenu['display_submenu'] or ($pagenow == "media-upload.php") ) ? 1 : 0;
 	// Making links relative so they're more readable and shorter in the query string (also made relative in the .css.php)
-	$plugin = WP_PLUGIN_URL.'/'.plugin_basename(dirname(__FILE__));
+	$plugin = wp_ozh_adminmenu_pluginurl().'inc/';
 	// query vars
 	$query = array(
-		'p' => wp_make_link_relative($plugin),
-		// 'a' => wp_make_link_relative(get_option('siteurl') . '/wp-admin'),
-		// 'mu => ((function_exists('wp_ozh_adminmenu_blogswitch_init')) ? 1 : 0),
+		'v' => OZH_MENU_VER,
+		'p' => wp_make_link_relative( $plugin ),
+		'a' => wp_make_link_relative( trailingslashit( get_admin_url() ) ),
 		'i' => $wp_ozh_adminmenu['icons'],
-		'w' => 	$wp_ozh_adminmenu['wpicons'],
+		'w' => $wp_ozh_adminmenu['wpicons'],
 		'm' => $wp_ozh_adminmenu['minimode'],
 		'c' => $wp_ozh_adminmenu['compact'],
 		'h' => $wp_ozh_adminmenu['hidebubble'],
@@ -253,7 +268,7 @@ function wp_ozh_adminmenu_css() {
 	);
 	$query = http_build_query($query);
 
-	echo "<link rel='stylesheet' href='$plugin/adminmenu.css.php?$query' type='text/css' media='all' />\n";
+	echo "<link rel='stylesheet' href='{$plugin}adminmenu.css.php?$query' type='text/css' media='all' />\n";
 }
 
 
@@ -267,7 +282,6 @@ function wp_ozh_adminmenu_defaults() {
 	return array(
 		'grad' => '#676768',
 		'nograd' => 0,
-		'displayfav' => 1,
 		'compact' => 0,
 		'minimode' => 0,
 		'hidebubble' => 0,
@@ -289,16 +303,6 @@ function wp_ozh_adminmenu_init() {
 	if (isset($_POST['ozh_adminmenu']) && ($_POST['ozh_adminmenu'] == 1) )
 		wp_ozh_adminmenu_processform();
 	
-	// Superfluous double checking
-	if ( !defined('WP_CONTENT_URL') )
-		define( 'WP_CONTENT_URL', get_option('siteurl') . '/wp-content');
-	if ( !defined('WP_PLUGIN_URL') )
-		define( 'WP_PLUGIN_URL', WP_CONTENT_URL . '/plugins' );
-	if ( !defined('WP_CONTENT_DIR') )
-		define( 'WP_CONTENT_DIR', ABSPATH . 'wp-content' );
-	if ( !defined('WP_PLUGIN_DIR') )
-		define( 'WP_PLUGIN_DIR', WP_CONTENT_DIR . '/plugins' ); // full path, no trailing slash
-	
 	$defaults = wp_ozh_adminmenu_defaults();
 	
 	if (!count($wp_ozh_adminmenu)) {
@@ -306,7 +310,9 @@ function wp_ozh_adminmenu_init() {
 		unset($wp_ozh_adminmenu[0]);
 	}
 	
-	$wp_ozh_adminmenu = array_merge($defaults, $wp_ozh_adminmenu);
+	// Allow plugins to modify the config
+	$wp_ozh_adminmenu = apply_filters( 'ozh_adminmenu_init_config', array_merge( $defaults, $wp_ozh_adminmenu ) );
+	
 	// Cannot have wpicons == 0 && compact == 1
 	if ($wp_ozh_adminmenu['compact'] == 1)
 		$wp_ozh_adminmenu['wpicons'] = 1;
@@ -326,7 +332,7 @@ function wp_ozh_adminmenu_load_page() {
 
 // Hooked into 'ozh_adminmenu_icon', this function give this plugin its own icon
 function wp_ozh_adminmenu_customicon($in) {
-	return WP_PLUGIN_URL.'/'.plugin_basename(dirname(__FILE__)).'/images/ozh.png';
+	return wp_ozh_adminmenu_pluginurl().'inc/images/ozh.png';
 }
 
 
@@ -334,7 +340,7 @@ function wp_ozh_adminmenu_customicon($in) {
 function wp_ozh_adminmenu_add_page() {
 	$page = add_options_page('Admin Drop Down Menu', 'Admin Menu', 'manage_options', 'ozh_admin_menu', 'wp_ozh_adminmenu_options_page_includes');
 	add_action('admin_print_scripts-' . $page, 'wp_ozh_adminmenu_add_farbtastic');
-	add_action('admin_print_styles-' . $page, 'wp_ozh_adminmenu_add_farbtastic');
+	add_action('admin_print_styles-'  . $page, 'wp_ozh_adminmenu_add_farbtastic');
 }
 
 // Actually add Farbtastic
@@ -347,6 +353,11 @@ function wp_ozh_adminmenu_add_farbtastic() {
 function wp_ozh_adminmenu_options_page_includes() {
 	require_once(dirname(__FILE__).'/options.php');
 	wp_ozh_adminmenu_options_page();
+}
+
+// Return plugin URL (SSL pref compliant) (trailing slash)
+function wp_ozh_adminmenu_pluginurl() {
+	return plugin_dir_url( dirname(__FILE__) );
 }
 
 
@@ -374,7 +385,7 @@ function wp_ozh_adminmenu_load_text_domain() {
 
 function wp_ozh_adminmenu_footer() {
 	echo <<<HTML
-Thank you for using <a href="http://planetozh.com/blog/my-projects/wordpress-admin-menu-drop-down-css/">Admin Drop Down Menu</a>, a wonderful plugin by <a href="http://planetozh.com/blog/">Ozh</a><br/>
+<p id="footer-ozh-oam">Thank you for using <a href="http://planetozh.com/blog/my-projects/wordpress-admin-menu-drop-down-css/">Admin Drop Down Menu</a>, a wonderful plugin by <a href="http://planetozh.com/blog/">Ozh</a></p>
 HTML;
 }
 
@@ -397,7 +408,7 @@ function wp_ozh_adminmenu_processform() {
 		foreach ($_POST as $k=>$v) {
 			$k = str_replace('oam_','',$k);
 			if (array_key_exists($k, $defaults)) {
-				$options[$k] = attribute_escape($v);
+				$options[$k] = esc_attr( $v );
 			}
 		}
 		
@@ -421,6 +432,9 @@ function wp_ozh_adminmenu_processform() {
 
 	add_action('admin_notices', create_function( '', "echo '$message';" ) );
 }
+
+
+
 
 
 ?>

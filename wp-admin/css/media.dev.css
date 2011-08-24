@@ -5,15 +5,15 @@ div#media-upload-header {
 	position: relative;
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
-	height: 2.5em;
 }
 
 body#media-upload ul#sidemenu {
 	font-weight: normal;
 	margin: 0 5px;
-	position: absolute;
-	left: 0px;
+	left: 0;
 	bottom: -1px;
+	float: none;
+	overflow: hidden;
 }
 
 div#media-upload-error {
@@ -34,7 +34,7 @@ th {
 }
 
 .media-upload-form label.form-help, td.help {
-	font-family: "Lucida Grande", "Bitstream Vera Sans", Verdana, Arial, sans-serif;
+	font-family: sans-serif;
 	font-style: italic;
 	font-weight: normal;
 }
@@ -83,7 +83,6 @@ tr.image-size div.image-size-item {
 
 #library-form .progress,
 #gallery-form .progress,
-#flash-upload-ui,
 .insert-gallery,
 .describe.startopen,
 .describe.startclosed {
@@ -153,7 +152,7 @@ abbr.required {
 
 #media-upload p.help,
 #media-upload label.help {
-	font-family: "Lucida Grande", "Bitstream Vera Sans", Verdana, Arial, sans-serif;
+	font-family: sans-serif;
 	font-style: italic;
 	font-weight: normal;
 }
@@ -187,7 +186,6 @@ abbr.required {
 }
 
 #media-upload .describe {
-	padding: 5px;
 	width: 100%;
 	clear: both;
 	cursor: default;

@@ -5,6 +5,9 @@ var postboxes;
 			this.init(page,args);
 			$('.postbox h3, .postbox .handlediv').click( function() {
 				var p = $(this).parent('.postbox'), id = p.attr('id');
+				if ( 'dashboard_browser_nag' == id )
+					return;
+
 				p.toggleClass('closed');
 				postboxes.save_state(page);
 				if ( id ) {
@@ -17,9 +20,15 @@ var postboxes;
 			$('.postbox h3 a').click( function(e) {
 				e.stopPropagation();
 			} );
+			$('.postbox a.dismiss').click( function(e) {
+				var hide_id = $(this).parents('.postbox').attr('id') + '-hide';
+				$( '#' + hide_id ).prop('checked', false).triggerHandler('click');
+				return false;
+			} );
 			$('.hide-postbox-tog').click( function() {
 				var box = $(this).val();
-				if ( $(this).attr('checked') ) {
+
+				if ( $(this).prop('checked') ) {
 					$('#' + box).show();
 					if ( $.isFunction( postboxes.pbshow ) )
 						postboxes.pbshow( box );
@@ -91,31 +100,26 @@ var postboxes;
 				forcePlaceholderSize: true,
 				helper: 'clone',
 				opacity: 0.65,
-				start: function(e,ui) {
-					$('body').css({
-						WebkitUserSelect: 'none',
-						KhtmlUserSelect: 'none'
-					});
-					/*
-					if ( $.browser.msie )
-						return;
-					ui.item.addClass('noclick');
-					*/
-				},
 				stop: function(e,ui) {
+					if ( $(this).find('#dashboard_browser_nag').is(':visible') && 'dashboard_browser_nag' != this.firstChild.id ) {
+						$(this).sortable('cancel');
+						return;
+					}
+
 					postboxes.save_order(page);
 					ui.item.parent().removeClass('temp-border');
-					$('body').css({
-						WebkitUserSelect: '',
-						KhtmlUserSelect: ''
-					});
+				},
+				receive: function(e,ui) {
+					if ( 'dashboard_browser_nag' == ui.item[0].id )
+						$(ui.sender).sortable('cancel');
 				}
 			});
 		},
 
 		save_state : function(page) {
 			var closed = $('.postbox').filter('.closed').map(function() { return this.id; }).get().join(','),
-			hidden = $('.postbox').filter(':hidden').map(function() { return this.id; }).get().join(',');
+				hidden = $('.postbox').filter(':hidden').map(function() { return this.id; }).get().join(',');
+
 			$.post(ajaxurl, {
 				action: 'closed-postboxes',
 				closed: closed,
@@ -127,6 +131,7 @@ var postboxes;
 
 		save_order : function(page) {
 			var postVars, page_columns = $('.columns-prefs input:checked').val() || 0;
+
 			postVars = {
 				action: 'meta-box-order',
 				_ajax_nonce: $('#meta-box-order-nonce').val(),
