@@ -1,2 +1,0 @@
-[14-Nov-2009 05:03:38] PHP Fatal error:  Call to undefined function  wp_new_comment() in /home/wittylet/public_html/awesomemath.org/wp-content/themes/awm/contact_form.php on line 26
-[14-Nov-2009 05:05:22] PHP Fatal error:  Call to undefined function  wp_new_comment() in /home/wittylet/public_html/awesomemath.org/wp-content/themes/awm/contact_form.php on line 26

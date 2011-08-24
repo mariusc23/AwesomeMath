@@ -138,7 +138,7 @@ function wp_ozh_adminmenu_options_page() {
 
     <tr><th scope="row"><?php echo wp_ozh_adminmenu__('Give Some &hearts;'); ?></th>
 	<td><?php printf(wp_ozh_adminmenu__('Do you like this plugin? Then <a href="%s">rate it 5 Stars</a> on the official Plugin Directory!'),'http://wordpress.org/extend/plugins/ozh-admin-drop-down-menu/'); ?><br/>
-	<?php printf(wp_ozh_adminmenu__('Do you DIG this plugin? Please <a href="%s">tweet about it</a>! (oh, and <a href="http://twitter.com/ozh">follow me</a> by the way&nbsp;:'),"http://twitter.com/?status=I%20love%20Ozh's%20Admin%20Drop%20Down%20Menu%20for%20WordPress%20http://ozh.in/kl"); ?><br/>
+	<?php printf(wp_ozh_adminmenu__('Do you DIG this plugin? Please <a href="%s">tweet about it</a>! (oh, and <a href="http://twitter.com/ozh">follow me</a> by the way&nbsp;:'),"http://twitter.com/?status=I%20love%20Ozh's%20Admin%20Drop%20Down%20Menu%20for%20WordPress%20http://ozh.in/kl"); ?>)<br/>
 	<?php printf(wp_ozh_adminmenu__('Do you <em>love</em> this plugin? Please <a href="%s">blog about it</a>! Tell your readers you like it so they will discover, try and hopefully like it too&nbsp;:)'),'post-new.php'); ?><br/>
 	<?php printf(wp_ozh_adminmenu__('Are you <span id="totallycrazy">crazy</span> about this plugin? <a href="%s">Paypal me a beer</a>! Every donation warms my heart and motivates me to release free stuff!'),'http://planetozh.com/exit/donate'); ?>
 	</td></tr>

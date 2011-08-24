@@ -78,14 +78,14 @@ class PHPMailer {
    * Sets the From name of the message.
    * @var string
    */
-  var $FromName          = 'Root User';
+  var $FromName          = 'AwesomeMath';
 
   /**
    * Sets the Sender email (Return-Path) of the message.  If not empty,
    * will be sent via -f to sendmail or as 'MAIL FROM' in smtp mode.
    * @var string
    */
-  var $Sender            = '';
+  var $Sender            = 'mail@awesomemath.org';
 
   /**
    * Sets the Subject of the message.
@@ -120,7 +120,7 @@ class PHPMailer {
    * Method to send mail: ("mail", "sendmail", or "smtp").
    * @var string
    */
-  var $Mailer            = 'mail';
+  var $Mailer            = 'smtp';
 
   /**
    * Sets the path of the sendmail program.
@@ -174,13 +174,13 @@ class PHPMailer {
    * Hosts will be tried in order.
    * @var string
    */
-  var $Host        = 'localhost';
+  var $Host        = '239.hostmonster.com';
 
   /**
    * Sets the default SMTP server port.
    * @var int
    */
-  var $Port        = 25;
+  var $Port        = 465;
 
   /**
    * Sets the SMTP HELO of the message (Default is $Hostname).
@@ -193,25 +193,25 @@ class PHPMailer {
    * Options are "", "ssl" or "tls"
    * @var string
    */
-  var $SMTPSecure = "";
+  var $SMTPSecure = "ssl";
 
   /**
    * Sets SMTP authentication. Utilizes the Username and Password variables.
    * @var bool
    */
-  var $SMTPAuth     = false;
+  var $SMTPAuth     = true;
 
   /**
    * Sets SMTP username.
    * @var string
    */
-  var $Username     = '';
+  var $Username     = 'mail@awesomemath.org';
 
   /**
    * Sets SMTP password.
    * @var string
    */
-  var $Password     = '';
+  var $Password     = 'm_2lJSUg.xEP';
 
   /**
    * Sets the SMTP server timeout in seconds. This function will not

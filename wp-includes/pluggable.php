@@ -349,7 +349,7 @@ function wp_mail( $to, $subject, $message, $headers = '', $attachments = array()
 	// From email and name
 	// If we don't have a name from the input headers
 	if ( !isset( $from_name ) ) {
-		$from_name = 'WordPress';
+		$from_name = 'AwesomeMath';
 	}
 
 	/* If we don't have an email from the input headers default to wordpress@$sitename
@@ -366,7 +366,7 @@ function wp_mail( $to, $subject, $message, $headers = '', $attachments = array()
 			$sitename = substr( $sitename, 4 );
 		}
 
-		$from_email = 'wordpress@' . $sitename;
+		$from_email = 'mail@' . $sitename;
 	}
 
 	// Plugin authors can override the potentially troublesome default
@@ -1145,7 +1145,7 @@ function wp_password_change_notification(&$user) {
 		// The blogname option is escaped with esc_html on the way into the database in sanitize_option
 		// we want to reverse this for the plain text arena of emails.
 		$blogname = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
-		wp_mail(get_option('admin_email'), sprintf(__('[%s] Password Lost/Changed'), $blogname), $message);
+		wp_mail(get_option('admin_email'), sprintf(__('Password Lost/Changed'), $blogname), $message);
 	}
 }
 endif;
@@ -1173,7 +1173,7 @@ function wp_new_user_notification($user_id, $plaintext_pass = '') {
 	$message .= sprintf(__('Username: %s'), $user_login) . "\r\n\r\n";
 	$message .= sprintf(__('E-mail: %s'), $user_email) . "\r\n";
 
-	@wp_mail(get_option('admin_email'), sprintf(__('[%s] New User Registration'), $blogname), $message);
+	@wp_mail(get_option('admin_email'), sprintf(__('New User Registration'), $blogname), $message);
 
 	if ( empty($plaintext_pass) )
 		return;
@@ -1182,7 +1182,7 @@ function wp_new_user_notification($user_id, $plaintext_pass = '') {
 	$message .= sprintf(__('Password: %s'), $plaintext_pass) . "\r\n";
 	$message .= wp_login_url() . "\r\n";
 
-	wp_mail($user_email, sprintf(__('[%s] Your username and password'), $blogname), $message);
+	wp_mail($user_email, sprintf(__('Your username and password'), $blogname), $message);
 
 }
 endif;

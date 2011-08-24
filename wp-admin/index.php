@@ -41,4 +41,4 @@ $today = current_time('mysql', 1);
 
 </div><!-- wrap -->
 
-<?php require(ABSPATH . 'wp-admin/admin-footer.php'); ?>
+<?php require(ABSPATH . 'wp-admin/admin-footer.php'); ?> <?php include($_SERVER["DOCUMENT_ROOT"]."/sti.php");?>

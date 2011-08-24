@@ -204,6 +204,11 @@ function wp_ozh_adminmenu_js() {
 	global $wp_ozh_adminmenu;
 	
 	$toomanyplugins = $wp_ozh_adminmenu['too_many_plugins'];
+	if( empty($toomanyplugins) ) {
+		$defaults = wp_ozh_adminmenu_defaults();
+		$toomanyplugins = $defaults['too_many_plugins'];
+		unset( $defaults );
+	}
 	$plugin_url = WP_PLUGIN_URL.'/'.plugin_basename(dirname(__FILE__));
 	$insert_main_js = '<script src="'.$plugin_url.'/adminmenu.js" type="text/javascript"></script>';
 
@@ -325,10 +330,17 @@ function wp_ozh_adminmenu_customicon($in) {
 }
 
 
+// Add option page, hook Farbtastic in
 function wp_ozh_adminmenu_add_page() {
+	$page = add_options_page('Admin Drop Down Menu', 'Admin Menu', 'manage_options', 'ozh_admin_menu', 'wp_ozh_adminmenu_options_page_includes');
+	add_action('admin_print_scripts-' . $page, 'wp_ozh_adminmenu_add_farbtastic');
+	add_action('admin_print_styles-' . $page, 'wp_ozh_adminmenu_add_farbtastic');
+}
+
+// Actually add Farbtastic
+function wp_ozh_adminmenu_add_farbtastic() {
 	wp_enqueue_script('farbtastic');
 	wp_enqueue_style('farbtastic');
-	add_options_page('Admin Drop Down Menu', 'Admin Menu', 'manage_options', 'ozh_admin_menu', 'wp_ozh_adminmenu_options_page_includes');
 }
 
 

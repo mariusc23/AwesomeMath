@@ -1,23 +1,35 @@
 var MIN_FIELDLENGTH = 5;
-var one_em = 14;
-var EMAIL_PREFIX = 'titu';
-var EMAIL_END = 'awesomemath.org';
+var EMAIL_PREFIX = 'tandreescu';
+var EMAIL_END = 'gmail.com';
 jQuery(document).ready(function($) {
     var showing_message = 0; // 1 for error message, 2 for contact info
     var msg_timeout = 0;
+    var equal_count = 0, EQUAL_CALL = 100, the_timeout = null;
     /* Init */
-    function equal_max_height_em(a, b) {
-        var h_a = $(a).height() * 1.0 / one_em
-          , h_b = $(b).height() * 1.0 / one_em
-        ;
+    function equal_max_height_em(a, b, c) {
+        var h_a = $(a).height(),
+            h_b = $(b).height() + 98;
         if (h_a > h_b) {
-            $(b).css('height', h_a + 'em');
-        }
-        else {
-            $(a).css('height', h_b + 'em');
+            $(b).css('height', h_a + 'px');
+            $(c).css('height', (h_a + 112) + 'px');
+        } else if (h_b < h_a) {
+            $(a).css('height', h_b + 'px');
+            $(c).css('height', h_b + 'px');
         }
     }
-    equal_max_height_em('#content', '#sidebar');
+    
+    var equal_interval = function() {
+        equal_count++;
+        if (equal_count < EQUAL_CALL &&
+            ($('#sidebar').length > 0)) {
+            equal_max_height_em('#content', '#sidebar', '#page');
+            the_timeout = setTimeout(equal_interval, 100);
+        } else {
+            clearTimeout(the_timeout);
+        }
+    }
+
+    the_timeout = setTimeout(equal_interval, 100);
 
     /* End of init */
     function isValidEmailAddress(emailAddress) {
@@ -57,7 +69,7 @@ jQuery(document).ready(function($) {
     });
     $('#contact_message').keypress(function() {
         validate_submission('message');
-    });
+    });	
 
     $('#contact_form').submit(function () {
         if (validate_submission()) {
@@ -103,4 +115,33 @@ jQuery(document).ready(function($) {
     $('#contact_msgbox a:first-child').live('click', close_msgbox);
     $('#contact_email_addr').live('click', function() { return email_link();} );
     $('.contact_email_link').click(function() { return email_link(); });
+
+    /* Adds delay on hiding submenu */
+    // Use closure to avoid globals
+    (function () {
+    var HIDE_TIMEOUT = 450,  // hide timeout, in milliseconds
+        SHOWING = 'sfhover', // CSS class for showing submenu
+        showing = null,      // reference to last parent showing its submenu
+        timeout = null;      // reference to timeout event from setTimeout
+
+        $('#navigation > li').mouseover(function () {
+            // Ensures only one submenu displays
+            if (null !== showing) {
+                showing.removeClass(SHOWING);
+                showing = null;
+                clearTimeout(timeout);
+            }
+            // Fixes drop downs not showing on IE6
+            $(this).addClass(SHOWING);
+        }).mouseout(function () {
+            showing = $(this);
+            showing.addClass(SHOWING);
+            // Hide submenu HIDE_TIMEOUT ms
+            timeout = setTimeout(function () {
+                showing.removeClass(SHOWING);
+                showing = null;
+            }, HIDE_TIMEOUT);
+        });
+    }());
+
 });

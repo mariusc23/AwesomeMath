@@ -4,7 +4,7 @@
  * @subpackage Default_Theme
  */
 ?>
-<br class="clear" />
+<div class="clear"></div>
 </div><!-- page -->
 <div id="footer">
     <?php

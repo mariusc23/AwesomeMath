@@ -90,29 +90,40 @@ h1 {
     font-size: 1.8em;
     font-weight: bold;
     color: #f56409;
+    padding: 0.6em 0 0.2em 0;
 }
 
 h2 {
     font-size: 1.5em;
-    padding: 0.1em 0 0.6em 0;
+    padding: 0.1em 0 0 0;
     font-weight: bold;
     color: #f56409;
+    padding: 0.5em 0 0.15em 0;
 }
 
 h3 {
     font-size: 1.4em;
     font-weight: bold;
     color: #f56409;
+    padding: 0.38em 0 0.1em 0;
 }
 
 h4 {
-    font-size: 1.2em;
+    font-size: 1.3em;
     font-weight: bold;
+    padding: 0.3em 0 0 0;
 }
 
 h5 {
+    font-size: 1.1em;
+    font-weight: bold;
+    padding: 0.3em 0 0 0;
+}
+h6 {
     font-size: 1em;
     font-weight: bold;
+    font-style: italic;
+    padding: 0.3em 0 0 0;
 }
 
 :link, :visited {
@@ -129,7 +140,7 @@ a:visited {
 }
 
 ul, ol {
-    padding: 0.5em 1em;
+    padding: 0.3em 1em;
 }
 
 abbr {
@@ -163,21 +174,22 @@ abbr {
     color: #fff;
     position: absolute;
     width: 360px;
-    padding: 20px;
-    height: 66px;
+    padding: 14px;
+    height: 70px;
     top: 190px;
     left: 80px;
-    line-height: 1em;
+    line-height: 1.2em;
     overflow: hidden;
 }
 /* Navigation
 -----------------------------------------------------------------------------*/
 #navigation {
-    width: 57em;
     text-transform: uppercase;
-    margin: 0 auto 0 auto;
-    padding: 309px 0 0 0;
     font-weight: bold;
+    float: left;
+    margin: 0;
+    padding: 300px 0 0 50px;
+    width: 72em;
 }
 
 #navigation li {
@@ -187,6 +199,8 @@ abbr {
     list-style-type:none;
     padding: 0; margin: 0;
     float:left;
+    position: relative;
+    z-index: 5;
 }
 
 #navigation a {
@@ -197,6 +211,67 @@ abbr {
 #navigation a:hover {
     color: #3a3a3a;
 }
+#navigation li a, #navigation li {
+	float: left;
+}
+#navigation li a {
+	padding: 8px 1.8em 7px 1.8em;
+	text-decoration: none;
+	color: 3a3a3a;
+	background: url(../images/menu.jpg) repeat-x;
+}
+#navigation li a:hover {
+	background: #fee073;
+	background: -moz-linear-gradient(top, #ffe179 1px, #fbd653 25px);
+	background: -webkit-gradient(linear, left top, left 25, from(#ffe179), to(#fbd653));
+}
+/*   Submenu 
+----------------------------------------------------*/
+
+.hasChildren {
+	position: absolute;
+	width: 5px;
+	height: 5px;
+	background: black;
+	right : 0;
+	bottom: 0;
+}
+#navigation li ul {
+	display: none;
+	position: absolute;
+	left: 0;
+	top: 100%;
+	padding: 0;
+	margin: 0;
+}
+#navigation li:hover ul, #navigation li.sfhover ul {
+	display: block;
+}
+#navigation li ul li, #navigation li ul li a {
+	float: none;
+	background: #feca34;
+/*	background: -webkit-gradient(  linear,  left top,  left bottom, from(#FFBF06), to(#ffc623));
+	background: -moz-linear-gradient(bottom, #FFBF06, #ffc623);
+*/}
+#navigation li ul li {
+	_display: inline; /* for IE6 */
+}
+#navigation li ul li a {
+	width: 170px;
+	display: block;
+}
+/* SUBSUB Menu */
+
+#navigation li ul li ul {
+	display: none;
+}
+#navigation li ul li:hover ul {
+	left: 100%;
+	top: 0;
+}
+
+
+
 
 /* Main Content
 -----------------------------------------------------------------------------*/
@@ -223,7 +298,7 @@ abbr {
     margin-left: 1px;
 }
 p {
-    padding: 0.5em 0;
+    padding: 0 0 0.5em 0;
 }
 
 .icon-panel {
@@ -327,25 +402,9 @@ p {
     margin: 0 auto 2em auto;
     width: 10em;
 }
-
-table td {
-    background: #ffffff;
-    padding: 3px;
-    vertical-align: middle;
-    text-align: center;
-}
-table th {
-    vertical-align: middle;
-    background: #d8d8d8;
-    font-weight: normal;
-    text-align: center;
-    padding: 0.7em 0;
-}
-table {
-    border: 1px solid #eaeaea;
-}
 blockquote {
-    text-align: center;
+    margin: 0 5em;
+    font-family: Palatino, "Palatino Linotype", Georgia, Times, serif;
 }
 .contact_email_link {
     position: relative;
@@ -356,6 +415,16 @@ blockquote {
 {
     width: 90%;
     margin: 1em auto 0 auto;
+}
+
+/* Posts 
+-----------------------------------------------------------------------------*/
+#content .post {
+    width: 43.857em;
+    padding: 1em 0 1em 1em;
+}
+.post-header .submitted-info, p.postmetadata {
+display: none;
 }
 
 /* Sidebar
@@ -385,7 +454,8 @@ blockquote {
 #sidebar .widget a {
     color: #000;
 }
-#sidebar .widget h2 a {
+#sidebar .widget h2 a
+, #sidebar .widget a.high1 {
     color: #f56409;
 }
 #sidebar .widget a:hover {
@@ -600,19 +670,35 @@ ol.commentlist {
 
 /* Tables 
 -----------------------------------------------------------------------------*/
-
-
-
-table
-    { 
+table { 
     border-spacing: 0;
     border-collapse: collapse;
+    border: 1px solid #eaeaea;
+    font-size: 0.9em;
 }
-
+td, th {
+	border: 1px solid #eaeaea;
+}
+tr:nth-child(odd) { background-color:#eee; }
+tr:nth-child(even) { background-color:#fff; }
 td 
     {
     text-align: left;
     font-weight: normal;
+}
+table td {
+    padding: 3px;
+    vertical-align: top;
+    text-align: center;
+}
+table th {
+    vertical-align: top;
+    background-color: #d8d8d8;
+    font-family: Palatino, "Palatino Linotype", Georgia, serif;
+    font-size: 1.1em;
+    font-weight: 600;
+    text-align: center;
+    padding: 0.3em 0;
 }
 
 /* Home page style
@@ -620,22 +706,25 @@ td
 #content.page-front {
     padding: 0;
 }
+#welcome-msg {
+	padding: 1em 0;
+}
 #home-top {
-    padding: 1.5em;
+    padding: 0.7em 1em;
     background: #ededed url('images/amspbg.png') repeat-x;
     border-bottom: #d4d4d4 1px solid;
 }
 #home-slideshow {
     float: right;
-    border: 1px solid #212121;
     margin: 0.5em 0 0 1em;
     width: 27em;
-    height: 15.571em;
+    height: 12.571em;
     position: relative;
 }
 #home-slideshow img {
     width: 27em;
-    height: 15.571em;
+    height: 12.571em;
+    border-radius: 15px;
 }
 .slideshow-desc {
     background: #000;
@@ -649,7 +738,7 @@ td
 }
 #home-top .icon-panel {
     float: right;
-    margin-top: 1em;
+    margin-top: -1.2em;
     padding: 0 1em;
 }
 .entry ul.home-widgets {
@@ -692,8 +781,11 @@ td
     background: #ededed url('images/amybg.png') repeat-x;
     border-left: 1px solid #d4d4d4;
 }
-.home-widget h2 {
-    padding: 0.5em 0 0.3em 0;
+#home-top h2, .home-widget h2 {
+	padding: 0 0 0.2em 0;
+}
+#home-top p, .home-widget p {
+	line-height: 1.4em;
 }
 .home-widget:first-child {
     border-left: 0;
@@ -729,24 +821,31 @@ input#s {
 
 /* XYZ Book page
 -----------------------------------------------------------------------------*/
-#book-link-1 {
+.book-link-1 {
   float: right;
   border: 1px dashed #fff;
   margin: 0 20px;
 }
+
+.book-link {
+  float: right;
+  border: 1px dotted #fff;
+  margin: 4px 20px;
+}
+
 a img {
   border: none;
 }
-a#book-link-1:hover {
+a.book-link-1:hover {
   color: #990000;
   border: 1px solid #990000;
 }
-#book-link-1 {
+.book-link-1 {
   text-align: center;
   text-decoration: none;
 }
 
-#book-intro-1 {
+.book-intro-1 {
   font-size: 1.4em;
   line-height: 1.2em;
   color: #f56409;
@@ -758,13 +857,13 @@ a#book-link-1:hover {
   text-align: center;
 }
 
-table#book-boxes {
+table.book-boxes {
   border: 1px solid #ddd;
   margin: 10px 20px;
   width: 90%;
   font-size: 12px;
 }
-table td#book-box-2 {
+table td.book-box-2 {
   font-size: 2em;
   vertical-align: middle;
   text-align: center;
@@ -772,12 +871,12 @@ table td#book-box-2 {
   border-right: 1px solid #ddd;
   background: #fff;
 }
-table td#book-box-1, table td#book-box-3 {
+table td.book-box-1, table td.book-box-3 {
   width: 40%;
   background: #fff;
   text-align: center;
 }
-#book-box-1 form {
+.book-box-1 form {
   margin: 0;
   padding: 0;
 }
@@ -805,9 +904,87 @@ table td#book-box-1, table td#book-box-3 {
   color: #f56409;
   font-weight: bold;
 }
+.highlight1 a {
+  text-decoration: underline;
+}
 
 .entry ol, .entry ul {
   margin-left: 1em;
 }
 
 
+
+/* Mathematical Reflections
+-------------------------------------------------------------------------------*/
+
+a.btn-pdf {
+	display: inline-block;
+	height: 26px;
+	width: 53px;
+	background: url(./images/btn-pdf.png) no-repeat top left;
+	text-indent: -1000em;
+	padding: 0;
+	position: relative;
+	bottom: 2px;
+}
+a.btn-pdf:hover {
+	background: url(./images/btn-pdf.png) no-repeat bottom left;
+}
+div.bottom-line {
+	width: 80%;
+	border-bottom: 1px solid #999;
+	margin: 0.5em auto;
+}
+
+/* Math Reflections Archive
+---------------------------------------------------------------------------*/
+
+.marchive ul {
+    list-style: none;
+    list-style-type: none;
+    padding: 0 2em 2em 3em;
+    margin: 0;
+}
+
+.marchive h4 {
+    padding: 5px 0;
+}
+.marchive ul li {
+    padding: 4px;
+}
+
+/* Home Page Advertisments
+-----------------------------------------------------------------------------*/
+
+div.home-ads {
+    border-bottom: 1px solid #d4d4d4;
+    background: #e0e0e0;
+}
+.amad img {
+    border-right: 1px solid #d4d4d4;
+}
+.amad2 img {    
+    width: 479px;
+}
+
+/* Flickr Mini Gallery
+------------------------------------------ */
+.flickr-mini-gallery img {
+    margin: 0 0 3px 3px;
+}
+
+.flickr-mini-gallery {
+     margin-left: 25px;
+     margin-top: 14px;
+}
+
+h4.center {
+     text-align: center;
+}
+div.flickr-gallery {
+     margin-left: 27px;
+     margin-top: 12px;
+}
+h4#AMSP09 {
+     margin-top: 18px;
+}
